@@ -1,0 +1,130 @@
+var config = {
+  type: Phaser.AUTO,
+  width: 800,
+  height: 600,
+  physics: {
+      default: 'arcade',
+      arcade: {
+          gravity: { y: 300 },
+          debug: false
+      }
+  },
+  
+  scene: [
+    Scene1
+  ]
+};
+game = new Phaser.Game(config);
+class scene1 extends Phaser.Scene {
+  constructor () {
+        super('Play');
+    }
+  init() {
+    var bom = 0
+    var score = 0;
+    var scoreText;
+    function hitBomb (player, bomb)
+    {
+        this.physics.pause();
+
+        player.setTint(0xff0000);
+
+        player.anims.play('turn');
+
+        gameOver = true;
+    }
+    function collectStar (player, star)
+    {
+        star.disableBody(true, true);
+        score += 10;
+        scoreText.setText('Score: ' + score);
+        if (stars.countActive(true) === 0)
+        {
+            stars.children.iterate(function (child) {
+
+                child.enableBody(true, child.x, 0, true, true);
+
+            });
+
+            var x = (player.x < 400) ? Phaser.Math.Between(400, 800) : Phaser.Math.Between(0, 400);
+
+            bomb = bombs.create(x, 16, 'bomb');
+            bomb.setBounce(1);
+            bomb.setCollideWorldBounds(true);
+            bomb.setVelocity(Phaser.Math.Between(-200, 200), 20);
+
+        }
+    }
+  }
+  <script type="text/javascript" src="title.js"></script>
+    <script type="text/javascript" src="phaser.js"></script>
+
+
+
+
+    https://www.thepolyglotdeveloper.com/2020/09/switch-between-scenes-phaser-game/
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+var SceneOne = new Phaser.Class({
+    Extends: Phaser.Scene,
+    initialize: function() {
+      Phaser.Scene.call(this, { "key": "SceneOne" });
+    },
+    init: function() {},
+    preload: function() {},
+    create: function() {},
+    update: function() {}
+});
+
+
+
+
+
+
+
+
+
+
+
+
+https://animesuge.io/anime/kimetsu-no-yaiba-movie-mugen-ressha-hen-dub-nz2m/ep-full
+
+https://animesuge.io/anime/kimetsu-no-yaiba-natagumo-yama-hen-dub-r7po/ep-full
+
+
+
+
+
+https://docs.idew.org/video-game/project-references/phaser-coding/enemy-behaviorshell

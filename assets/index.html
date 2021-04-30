@@ -1,0 +1,44 @@
+<!DOCTYPE html>
+<html>
+  <head>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width">
+    <title>repl.it</title>
+    <link href="style.css" rel="stylesheet" type="text/css" />
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/phaser/3.16.2/phaser.min.js"></script>
+    <script type="text/javascript" src="title.js"></script>
+    <script type="text/javascript" src="Pause.js"></script>
+    <script type="text/javascript" src="audio1.js"></script>
+    <script type="text/javascript" src="audio2.js"></script>
+    <script type="text/javascript" src="SceneOne.js"></script>
+    <script type="text/javascript" src="Scene2.js"></script>
+    <script type="text/javascript" src="Scene3.js"></script>
+  </head>
+  <body>
+    <h1>Knight Man</h1>
+    <p>Move with arrow keys</p>
+    <div id="app"></div>
+    <script>
+      const phaserConfig = {
+          type: Phaser.AUTO,
+          scale: {
+            autoCenter: Phaser.Scale.CENTER_BOTH,
+            mode: Phaser.Scale.FIT,
+            parent: "app",
+            width: 800,
+            height: 600
+          },
+          backgroundColor: "#5DACD8",
+          physics: {
+            default: 'arcade',
+            arcade: {
+                gravity: { y: 300 },
+                debug: false
+            }
+          },
+          scene: [Title, AudioOne, AudioTwo, SceneOne, SceneTwo, SceneThree, Pause]
+      };
+      const game = new Phaser.Game(phaserConfig);
+    </script>
+  </body>
+</html> 
