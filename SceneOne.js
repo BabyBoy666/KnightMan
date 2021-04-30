@@ -20,6 +20,7 @@ var SceneOne = new Phaser.Class(function(){
       preload: function() {
         
         this.load.audio("boop", "./assets/select.mp3");
+        this.load.audio("hit", "./assets/hit.wav");
         this.load.image('sky', 'assets/sky1.png');
         this.load.image('ground', 'assets/platform.png');
         this.load.image('star', 'assets/star3.png');
