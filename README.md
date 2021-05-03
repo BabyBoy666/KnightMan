@@ -13,10 +13,7 @@ and some of the images such as the fireball in the bossfight scene.
 Elliot can you put some of the audio clips here? please.
 ```
 
-<audio controls="controls">
-<source type="audio/mp3" src="assets/fire.mp3"></source>
-<p>Your browser does not support the audio element.</p>
-</audio>
+[fire](assets/fire.mp3)
 
 
 You can try the game out here. 
