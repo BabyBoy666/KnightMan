@@ -30,7 +30,7 @@ var Title = new Phaser.Class({
             text2 = this.add.text(
               400, 
               370, 
-              "By Baby_Boy", 
+              "By Baby_Boy and Shadowfang95", 
               {
                   fontSize: 40,
                   color: "#000000",
