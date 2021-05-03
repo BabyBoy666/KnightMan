@@ -14,7 +14,7 @@ Elliot can you put some of the audio clips here? please.
 ```
 
 <audio controls="controls">
-<source type="audio/mp3" src="./assets/fire.mp3"></source>
+<source type="audio/mp3" src="assets/fire.mp3"></source>
 <p>Your browser does not support the audio element.</p>
 </audio>
 
