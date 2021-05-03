@@ -21,5 +21,5 @@ And as always have fun.
 - Level one
 - level 2
 - bossfight(not accesible)
-- and more content coming soon
+- And more content coming soon
 - **possebly**
