@@ -7,14 +7,9 @@ This game was created by [ElliotMassey](https://replit.com/@ElliotMassey) for th
 Elliot Massey created the code while [BenjaminWatts1](https://replit.com/@BenjaminWatts1) created the readme and some of the sounds,
 and some of the images such as the fireball in the bossfight scene.
 
-
 **here are some examples of the audio clips.**
-```
-Elliot can you put some of the audio clips here? please.
-```
 
 <a href=assets/fire.mp3>fire</a>
-
 
 You can try the game out here. 
 Click the link below.
@@ -25,8 +20,6 @@ And as always have fun.
 - There are currently three levels.
 - Level one
 - level 2
-- bossfight
-- and more content coming soon
+- bossfight(not accesible)
+- And more content coming soon
 - **possebly**
-> you can change the layout if you want
-
