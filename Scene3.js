@@ -111,16 +111,21 @@ var SceneThree = new Phaser.Class(function(){
         {
           star.disableBody(true, true); 
           plat.disableBody(true, true);
-          enemy = this.physics.add.sprite(400, 300,'boss1')  
+          enemy = this.physics.add.sprite(400, 200,'boss1')  
           enemy.body.setGravityY(0)
           enemy.setCollideWorldBounds(true);
           enemy.body.bounce.x = 1;
           this.physics.add.collider(enemy, platforms);
-          game.physics.arcade.overlap(player, enemyGroup, touchEnemy, null, this);
-          
+          this.physics.add.overlap(player, enemy, touchEnemy, null, this);
+          enemy.anims.play('blink', true);
+          this.time.addEvent({
+            delay: 4000,
+            loop: false,
+            callback: () => {
+              enemy.anims.play('solid', true);
+            }
+          })
 
-     
-           
 
             /** 
             bomb = bombs.create(x, 16, 'bomb');
