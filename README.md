@@ -13,13 +13,11 @@ and some of the images such as the fireball in the bossfight scene.
 Elliot can you put some of the audio clips here? please.
 ```
 
-<html>
-  <audio controls="controls">
-  <source type="audio/mp3" src="filename.mp3"></source>
-  <source type="audio/ogg" src="filename.ogg"></source>
-  <p>Your browser does not support the audio element.</p>
+<audio controls="controls">
+<source type="audio/mp3" src="filename.mp3"></source>
+<source type="audio/ogg" src="filename.ogg"></source>
+<p>Your browser does not support the audio element.</p>
 </audio>
-</html>
 
 
 You can try the game out here. 
