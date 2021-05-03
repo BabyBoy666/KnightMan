@@ -18,6 +18,7 @@ var SceneThree = new Phaser.Class(function(){
       },
       preload: function() {
         this.load.audio("boop", "./assets/select.mp3");
+        this.load.audio("jump", "./assets/jump.wav");
         this.load.audio("enemyFireSound", "./assets/fire.mp3");
         this.load.image('dsky', 'assets/doomsky.png');
         this.load.image('orb', 'assets/orb.png');
@@ -171,6 +172,7 @@ var SceneThree = new Phaser.Class(function(){
 
         if (cursors.up.isDown && player.body.touching.down)
         {
+            jump.play();
             player.setVelocityY(-480);
         }
         if(ps.isDown && ready == true){

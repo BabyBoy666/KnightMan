@@ -15,6 +15,7 @@ var SceneTwo = new Phaser.Class(function(){
       preload: function() {
         
         this.load.audio("boop", "./assets/select.mp3");
+        this.load.audio("jump", "./assets/jump.wav");
         this.load.image('sky', 'assets/sky1.png');
         this.load.image('spike', 'assets/spike.png');
         this.load.image('ground', 'assets/platform.png');
@@ -150,6 +151,7 @@ var SceneTwo = new Phaser.Class(function(){
 
         if (cursors.up.isDown && player.body.touching.down)
         {
+            jump.play();
             player.setVelocityY(-480);
         }
         if(player.body.y == 536 && stop == false){
