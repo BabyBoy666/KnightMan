@@ -14,6 +14,7 @@ Elliot can you put some of the audio clips here? please.
 ```
 
 [fire](assets/fire.mp3)
+(<a href=“assets/fire.mp3”>fire</a>"
 
 
 You can try the game out here. 
