@@ -13,7 +13,7 @@ and some of the images such as the fireball in the bossfight scene.
 Elliot can you put some of the audio clips here? please.
 ```
 
-<a href=“assets/fire.mp3”>fire</a>
+<a href=assets/fire.mp3>fire</a>
 
 
 You can try the game out here. 
