@@ -13,7 +13,7 @@ and some of the images such as the fireball in the bossfight scene.
 Elliot can you put some of the audio clips here? please.
 ```
 
-<html markdown="1">
+<html>
   <audio controls="controls">
   <source type="audio/mp3" src="filename.mp3"></source>
   <source type="audio/ogg" src="filename.ogg"></source>
