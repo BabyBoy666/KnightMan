@@ -29,6 +29,7 @@ var SceneTwo = new Phaser.Class(function(){
       create: function() { 
         stop = false
         select = this.sound.add("boop", { loop: false });
+        jump = this.sound.add("jump", { loop: false });
         this.add.image(0, 0, 'sky').setOrigin(0, 0)
         platforms = this.physics.add.staticGroup();
         platforms.create(750, 220, 'ground');

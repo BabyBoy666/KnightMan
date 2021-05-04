@@ -30,13 +30,14 @@ var SceneThree = new Phaser.Class(function(){
             'assets/dude4.png',
             { frameWidth: 48, frameHeight: 64 })
         this.load.spritesheet('boss1', 
-            'boss1/dude4.png',
+            'assets/boss1.png',
             { frameWidth: 42, frameHeight: 64 })
       },
       create: function() {
 
         
         select = this.sound.add("boop", { loop: false });
+        jump = this.sound.add("jump", { loop: false });
         this.add.image(0, 0, 'dsky').setOrigin(0, 0)
         platforms = this.physics.add.staticGroup();
         platforms.create(400, 568, 'ground').setScale(2).refreshBody();
@@ -57,13 +58,13 @@ var SceneThree = new Phaser.Class(function(){
 
         this.anims.create({
             key: 'blink',
-            frames: this.anims.generateFrameNumbers('boss1', { start: 5, end: 6 }),
+            frames: this.anims.generateFrameNumbers('boss1', { start: 4, end: 5 }),
             frameRate: 10,
             repeat: -1
         });
         this.anims.create({
             key: 'solid',
-            frames: [ { key: 'boss1', frame: 5 } ],
+            frames: [ { key: 'boss1', frame: 4 } ],
             frameRate: 20
         });
         
@@ -113,17 +114,31 @@ var SceneThree = new Phaser.Class(function(){
           star.disableBody(true, true); 
           plat.disableBody(true, true);
           enemy = this.physics.add.sprite(400, 200,'boss1')  
-          enemy.body.setGravityY(0)
           enemy.setCollideWorldBounds(true);
           enemy.body.bounce.x = 1;
           this.physics.add.collider(enemy, platforms);
           this.physics.add.overlap(player, enemy, touchEnemy, null, this);
           enemy.anims.play('blink', true);
           this.time.addEvent({
-            delay: 4000,
+            delay: 100,
             loop: false,
             callback: () => {
-              enemy.anims.play('solid', true);
+              enemy.body.setAllowGravity(false)
+              this.time.addEvent({
+                delay: 4000,
+                loop: false,
+                callback: () => {
+                  enemy.anims.play('solid', true);
+                  enemy.body.setAllowGravity(true)
+                  this.time.addEvent({
+                    delay: 1000,
+                    loop: false,
+                    callback: () => 
+                      player.setVelocityY(-480);
+                    }
+                  })
+                }
+              })
             }
           })
 

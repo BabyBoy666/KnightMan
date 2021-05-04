@@ -18,7 +18,7 @@ And as always have fun.
 [click to go to game.](https://knightman.elliotmassey.repl.co/)
 
 - There are currently three levels.
-- Level one
+- Level 1
 - level 2
 - bossfight(not accesible)
 - And more content coming soon
