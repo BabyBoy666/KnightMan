@@ -67,7 +67,28 @@ var SceneThree = new Phaser.Class(function(){
             frames: [ { key: 'boss1', frame: 4 } ],
             frameRate: 20
         });
-        
+        this.anims.create({
+            key: 'stand1',
+            frames: [ { key: 'boss1', frame: 3 } ],
+            frameRate: 20
+        });
+        this.anims.create({
+            key: 'launch1',
+            frames: this.anims.generateFrameNumbers('boss1', { start: 0, end: 3 }),
+            frameRate: 5,
+            repeat: -1
+        });
+        this.anims.create({
+            key: 'stand2',
+            frames: [ { key: 'boss1', frame: 6 } ],
+            frameRate: 20
+        });
+        this.anims.create({
+            key: 'launch2',
+            frames: this.anims.generateFrameNumbers('boss1', { start: 6, end: 10 }),
+            frameRate: 5,
+            repeat: -1
+        });
         this.anims.create({
             key: 'left',
             frames: this.anims.generateFrameNumbers('dude', { start: 0, end: 3 }),
@@ -133,8 +154,16 @@ var SceneThree = new Phaser.Class(function(){
                   this.time.addEvent({
                     delay: 1000,
                     loop: false,
-                    callback: () => 
+                    callback: () => {
                       player.setVelocityY(-480);
+                      this.time.addEvent({
+                        delay: 1000,
+                        loop: false,
+                        callback: () => {
+                          enemy.anims.play('stand1', true);
+                           
+                        }
+                      })
                     }
                   })
                 }
