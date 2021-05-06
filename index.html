@@ -15,10 +15,11 @@
     <script type="text/javascript" src="Scene3.js"></script>
   </head>
   <body>
-    <h1>Knight Man</h1>
-    <p>Move with arrow keys</p>
+    <center><h1>Knight Man</h1></center>
+    <center><p>Move with arrow keys</p></center>
     <div id="app"></div>
     <script>
+      
       const phaserConfig = {
           type: Phaser.AUTO,
           scale: {
@@ -28,6 +29,7 @@
             width: 800,
             height: 600
           },
+
           backgroundColor: "#5DACD8",
           physics: {
             default: 'arcade',
@@ -40,5 +42,5 @@
       };
       const game = new Phaser.Game(phaserConfig);
     </script>
-  </body>
+  </body> 
 </html> 

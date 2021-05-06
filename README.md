@@ -19,7 +19,11 @@ And as always have fun.
 
 - There are currently three levels.
 - Level 1
+You have to fight your way up to 600 points to edvance to the next level.
+You have to gather coins all the while avoiding the death bouncers.
 - level 2
+You have to find away to get across by jumping to the money bag and jumping off of it at the perfect moment... Good luck!
 - bossfight(not accesible)
+Here you will have to fight a boss where you just outlast him by dodging and staying away from him.
 - And more content coming soon
 - **possebly**

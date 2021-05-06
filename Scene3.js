@@ -6,6 +6,7 @@ var SceneThree = new Phaser.Class(function(){
     var rls = false
     var isPlaying = false
     var health = 5
+    var imun = false
     
 
     return {
@@ -18,9 +19,11 @@ var SceneThree = new Phaser.Class(function(){
       },
       preload: function() {
         this.load.audio("boop", "./assets/select.mp3");
+        this.load.audio("boom", "./assets/boom2.wav");
         this.load.audio("jump", "./assets/jump.wav");
         this.load.audio("enemyFireSound", "./assets/fire.mp3");
         this.load.image('dsky', 'assets/doomsky.png');
+        this.load.image('heart', 'assets/heart.png');
         this.load.image('orb', 'assets/orb.png');
         this.load.image('ground', 'assets/platform.png');
         this.load.image('ground2',  'assets/platform2.png');
@@ -32,22 +35,66 @@ var SceneThree = new Phaser.Class(function(){
         this.load.spritesheet('boss1', 
             'assets/boss1.png',
             { frameWidth: 42, frameHeight: 64 })
+        this.load.atlas('shapes', 'assets/particle-effect/shapes.png', 'assets/particle-effect/shapes.json');
+        this.load.text('particle-effect', 'assets/particle-effect/particle-effect.json');
       },
       create: function() {
-
-        
+        health = 5
         select = this.sound.add("boop", { loop: false });
+        boom = this.sound.add("boom", { loop: false });
         jump = this.sound.add("jump", { loop: false });
         this.add.image(0, 0, 'dsky').setOrigin(0, 0)
         platforms = this.physics.add.staticGroup();
         platforms.create(400, 568, 'ground').setScale(2).refreshBody();
         plat = platforms.create(400, 400, 'ground2')
+        var particles = this.add.particles(this.add.image('shapes', 'circle_05'));
+        particles.createEmitter({
+          active:true, 
+          visible:true,
+          collideBottom:true,
+          collideLeft:true,
+          collideRight:true,
+          collideTop:true,
+          on:true,
+          particleBringToTop:true,
+          radial:true,
+          frequency:100,
+          gravityX:0,
+          gravityY:30,
+          maxParticles:30,
+          timeScale:2,
+          blendMode:0,
+          accelerationX:0,
+          accelerationY:0,
+          alpha:1,
+          angle:{min:0,max:360,ease:"Linear"},
+          bounce:0,
+          delay:0,
+          lifespan:{ease:"Linear",min:1000,max:10000},
+          maxVelocityX:10000,
+          maxVelocityY:10000,
+          moveToX:{ease:"Linear",min:0,max:1000},
+          moveToY:0,
+          quantity:1,
+          rotate:1,
+          scale:1,
+          speed:[1,0],
+          x:470,
+          y:380,
+          name:"parta",
+          tint:[16711680,13504014,5899268,16719647,9573653],
+          emitZone:{source:new Phaser.Geom.Rectangle(-50,-60,50,50),type:'random'}
+        })
+        var particle = particles.emitters.getByName("parta");
+        particle.start();
+        particle.pause();
 
         player = this.physics.add.sprite(100, 450, 'dude');
 
         player.setBounce(0.2);
         player.setCollideWorldBounds(true);
         this.physics.add.collider(player, platforms);
+        particle.startFollow(player);
         
         scoreText = this.add.text(16, 16, 'score: 0', { fontSize: '32px', fill: '#000' });
         bombs = this.physics.add.group();
@@ -130,15 +177,57 @@ var SceneThree = new Phaser.Class(function(){
 
           gameOver = true;
         }
+        function touchEnemy(player, enemy) {
+          if (imun == false){
+            particle.resume();  
+            this.time.addEvent({
+              delay: 50,
+              loop: false,
+              callback: () => {
+                particle.pause();
+                this.time.addEvent({
+                  delay: 50,
+                  loop: false,
+                  callback: () => {
+                    particle.killAll()
+                  }
+                })
+              }
+            })
+            imun = true
+            player.setTint(0x808080);
+            enemy.body.velocity.x *= -1;
+            player.body.velocity.x *= -1;
+            liv = "liv"+health
+            eval(`${liv}.disableBody(true, true);`)
+            health = health - 1
+          }
+          if (imun == true){
+            this.time.addEvent({
+              delay: 3000,
+              loop: false,
+              callback: () => {
+                imun = false 
+                player.setTint(0xFFFFFF);
+              }
+            })
+          }
+        }
         function collectStar (player, star)
         {
           star.disableBody(true, true); 
           plat.disableBody(true, true);
+          lives = this.physics.add.staticGroup();
+          liv1 = lives.create(780, 580, 'heart')
+          liv2 = lives.create(750, 580, 'heart')
+          liv3 = lives.create(720, 580, 'heart')
+          liv4 = lives.create(690, 580, 'heart')
+          liv5 = lives.create(660, 580, 'heart')
           enemy = this.physics.add.sprite(400, 200,'boss1')  
           enemy.setCollideWorldBounds(true);
           enemy.body.bounce.x = 1;
           this.physics.add.collider(enemy, platforms);
-          this.physics.add.overlap(player, enemy, touchEnemy, null, this);
+          this.physics.add.collider(player, enemy, touchEnemy, null, this);
           enemy.anims.play('blink', true);
           this.time.addEvent({
             delay: 100,
@@ -155,7 +244,8 @@ var SceneThree = new Phaser.Class(function(){
                     delay: 1000,
                     loop: false,
                     callback: () => {
-                      player.setVelocityY(-480);
+                      boom.play()
+                      player.setVelocityY(-500);
                       this.time.addEvent({
                         delay: 1000,
                         loop: false,
@@ -180,12 +270,18 @@ var SceneThree = new Phaser.Class(function(){
             */
 
         }
-        function touchEnemy(player, enemy) {
-          enemy.body.velocity.x *= -1;
-          health = health - 1
-        }
+        
       },
       update: function() {
+        if(health == 0){
+          this.physics.pause();
+
+          player.setTint(0xff0000);
+
+          player.anims.play('turn');
+
+          gameOver = true;
+        }
         
         cursors = this.input.keyboard.createCursorKeys();
         var key = this.input.keyboard.addKey("A");
