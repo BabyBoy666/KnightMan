@@ -47,6 +47,9 @@ var SceneThree = new Phaser.Class(function(){
         platforms = this.physics.add.staticGroup();
         platforms.create(400, 568, 'ground').setScale(2).refreshBody();
         plat = platforms.create(400, 400, 'ground2')
+
+        player = this.physics.add.sprite(100, 450, 'dude');
+
         var particles = this.add.particles(this.add.image('shapes', 'circle_05'));
         particles.createEmitter({
           active:true, 
@@ -87,9 +90,7 @@ var SceneThree = new Phaser.Class(function(){
         })
         var particle = particles.emitters.getByName("parta");
         particle.start();
-        particle.pause();
-
-        player = this.physics.add.sprite(100, 450, 'dude');
+        particle.pause();  
 
         player.setBounce(0.2);
         player.setCollideWorldBounds(true);
