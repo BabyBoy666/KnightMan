@@ -24,7 +24,7 @@ var SceneThree = new Phaser.Class(function(){
         this.load.audio("enemyFireSound", "./assets/fire.mp3");
         this.load.image('dsky', 'assets/doomsky.png');
         this.load.image('heart', 'assets/heart.png');
-        this.load.image('orb', 'assets/orb.png');
+        this.load.image('orb1', 'assets/orb.png');
         this.load.image('ground', 'assets/platform.png');
         this.load.image('ground2',  'assets/platform2.png');
         this.load.image('star', 'assets/star3.png');
@@ -32,6 +32,9 @@ var SceneThree = new Phaser.Class(function(){
         this.load.spritesheet('dude', 
             'assets/dude4.png',
             { frameWidth: 48, frameHeight: 64 })
+        this.load.spritesheet('orb',
+            'assets/orb2.png',
+            { frameWidth: 15, frameHeight: 15 })
         this.load.spritesheet('boss1', 
             'assets/boss1.png',
             { frameWidth: 42, frameHeight: 64 })
@@ -39,6 +42,22 @@ var SceneThree = new Phaser.Class(function(){
         this.load.text('particle-effect', 'assets/particle-effect/particle-effect.json');
       },
       create: function() {
+        function al(angle1){
+          const vec = this.physics.velocityFromAngle(angle1, 1)
+          const dx = vec.x * 50
+          const dy = vec.y * 50
+          var x = enemy.x + 30
+          var y = enemy.y + 10
+          orb2 = bombs.create(x, y, 'orb').setScale(2);
+          orb2.body.setAllowGravity(false)
+          orb2.setBounce(1);
+          orb2.setCollideWorldBounds(true);
+          orb2.anims.play('norm', true);
+          const vx = vec.x * 300
+          const vy = vec.y * 300
+          orb2.setVelocity(vx, vy);
+          orb2.body.onWorldBounds = true
+        }
         health = 5
         select = this.sound.add("boop", { loop: false });
         boom = this.sound.add("boom", { loop: false });
@@ -122,7 +141,13 @@ var SceneThree = new Phaser.Class(function(){
         });
         this.anims.create({
             key: 'launch1',
-            frames: this.anims.generateFrameNumbers('boss1', { start: 0, end: 3 }),
+            frames: this.anims.generateFrameNumbers('boss1', { start: 0, end: 1 }),
+            frameRate: 5,
+            repeat: -1
+        });
+        this.anims.create({
+            key: 'rlaunch1',
+            frames: this.anims.generateFrameNumbers('boss1', { start: 2, end: 3 }),
             frameRate: 5,
             repeat: -1
         });
@@ -133,7 +158,13 @@ var SceneThree = new Phaser.Class(function(){
         });
         this.anims.create({
             key: 'launch2',
-            frames: this.anims.generateFrameNumbers('boss1', { start: 6, end: 10 }),
+            frames: this.anims.generateFrameNumbers('boss1', { start: 6, end: 7 }),
+            frameRate: 5,
+            repeat: -1
+        });
+        this.anims.create({
+            key: 'rlaunch2',
+            frames: this.anims.generateFrameNumbers('boss1', { start: 8, end: 9 }),
             frameRate: 5,
             repeat: -1
         });
@@ -157,6 +188,12 @@ var SceneThree = new Phaser.Class(function(){
             frameRate: 10,
             repeat: -1
         });
+        this.anims.create({
+            key: 'norm',
+            frames: this.anims.generateFrameNumbers('orb', { start: 0, end: 4 }),
+            frameRate: 10,
+            repeat: -1
+        });
         player.body.setGravityY(300)
         stars = this.physics.add.group();
         star1 = stars.create(400, 0, "star")
@@ -167,7 +204,12 @@ var SceneThree = new Phaser.Class(function(){
         });
         this.physics.add.collider(stars, platforms);
         this.physics.add.overlap(player, stars, collectStar, null, this);
-        this.physics.add.collider(player, bombs, hitBomb,  null, this);
+        this.physics.add.overlap(player, platforms,under, null, this);
+        this.physics.world.on('worldbounds', onWorldBounds)
+        //this.physics.add.collider(player, bombs,touchEnemy, null, this);
+        function onWorldBounds (body){
+          body.disableBody(true, true);
+        }
         function hitBomb (player, bomb)
         {
           this.physics.pause();
@@ -177,6 +219,10 @@ var SceneThree = new Phaser.Class(function(){
           player.anims.play('turn');
 
           gameOver = true;
+        }
+        function under (player, platforms)
+        {
+          player.y = 400
         }
         function touchEnemy(player, enemy) {
           if (imun == false){
@@ -228,7 +274,6 @@ var SceneThree = new Phaser.Class(function(){
           enemy.setCollideWorldBounds(true);
           enemy.body.bounce.x = 1;
           this.physics.add.collider(enemy, platforms);
-          this.physics.add.collider(player, enemy, touchEnemy, null, this);
           enemy.anims.play('blink', true);
           this.time.addEvent({
             delay: 100,
@@ -246,15 +291,106 @@ var SceneThree = new Phaser.Class(function(){
                     loop: false,
                     callback: () => {
                       boom.play()
-                      player.setVelocityY(-500);
+                      if(player.body.touching.down){
+                        player.setVelocityY(-500);
+                      }
                       this.time.addEvent({
                         delay: 1000,
                         loop: false,
                         callback: () => {
+                          colliderObject = this.physics.add.collider(player, enemy, touchEnemy, null, this);
                           enemy.anims.play('stand1', true);
-                           
+                          enemy.body.setAllowGravity(false)
+                          enemy.setBounce(1);
+                          /** 
+                          this.time.addEvent({
+                            delay: 5000,
+                            loop: false,
+                            repeat: 30, 
+                            callback: () => {
+                              enemy.anims.play('stand1', true);
+                              enemy.setVelocity(Phaser.Math.Between(-400, 400), Phaser.Math.Between(-400, 400));
+                              this.time.addEvent({
+                                delay: 4000,
+                                loop: false,
+                                callback: () => {
+                                  if(typeof orb != 'undefined'){
+                                    orb.disableBody(true, true); 
+                                  }
+                                  enemy.anims.play('launch1', true);
+                                  var x = enemy.x + 30
+                                  var speedx = enemy.x 
+                                  var y = enemy.y - 10
+                                  var speedy = enemy.y 
+                                  orb = bombs.create(x, y, 'orb').setScale(2);
+                                  orb.setBounce(1);
+                                  orb.setCollideWorldBounds(true);
+                                  orb.setVelocity(speedx, speedy);
+                                  orb.anims.play('norm', true);
+                                  this.time.addEvent({
+                                    delay: 2000,
+                                    loop: false,
+                                    callback: () => {
+                                      if(typeof orb2 != 'undefined'){
+                                        orb2.disableBody(true, true); 
+                                      }
+                                      enemy.anims.play('rlaunch1', true); 
+                                      var x = enemy.x + 30
+                                      var speedx = enemy.x 
+                                      var y = enemy.y + 10
+                                      var speedy = enemy.y
+                                      orb2 = bombs.create(x, y, 'orb').setScale(2);
+                                      orb2.setBounce(1);
+                                      orb2.setCollideWorldBounds(true);
+                                      orb2.setVelocity(speedx, speedy);
+                                      orb2.anims.play('norm', true);
+                                    }
+                                  })
+                                }
+                              })
+                            }
+                          })
+                          */ 
+                          timea = 0
+                          this.time.addEvent({
+                            delay: 5000,
+                            loop: false,
+                            //repeat: 30,
+                            callback: () => {
+                              timea += 1
+                              console.log(timea)
+                              //if(timea == 31){
+                                console.log(enemy.x)
+                                console.log(enemy.y)
+                                colliderObject.destroy();
+                                console.log('stage one compleate!')  
+                                //orb.disableBody(true, true);
+                                //orb2.disableBody(true, true);
+                                enemy.setVelocity(0,0)
+                                enemy.anims.play('solid')
+                                enemy.x = 400
+                                enemy.y = 504
+                                this.time.addEvent({
+                                  delay: 5000,
+                                  loop: false,
+                                  callback: () => {
+                                    enemy.anims.play('stand2')
+                                    enemy.x = 390
+                                    enemy.y = 250
+                                    this.time.addEvent({
+                                      delay: 3000,
+                                      loop: false,
+                                      callback: () => {
+                                        al(45)
+                                      }
+                                    });
+                                  }
+                                });
+                              //}
+                            }
+                          });
                         }
-                      })
+                      }) 
                     }
                   })
                 }

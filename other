@@ -128,3 +128,11 @@ https://animesuge.io/anime/kimetsu-no-yaiba-natagumo-yama-hen-dub-r7po/ep-full
 
 
 https://docs.idew.org/video-game/project-references/phaser-coding/enemy-behaviorshell
+
+localStorage.setItem('myItemKey', 'myContent');localStorage.getItem('myItemKey');
+
+
+
+https://skalman.github.io/UglifyJS-online/
+
+https://obfuscator.io/

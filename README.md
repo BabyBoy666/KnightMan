@@ -1,9 +1,7 @@
-README.md
+Knight Man
 -
-***This is the explenation for the game and what it does***
-
 This game was created by [ElliotMassey](https://replit.com/@ElliotMassey) for the purpose of entertainment. So enjoy.
-
+ 
 Elliot Massey created the code while [BenjaminWatts1](https://replit.com/@BenjaminWatts1) created the readme and some of the sounds,
 and some of the images such as the fireball in the bossfight scene.
 
@@ -24,6 +22,6 @@ You have to gather coins all the while avoiding the death bouncers.
 - level 2
 You have to find away to get across by jumping to the money bag and jumping off of it at the perfect moment... Good luck!
 - bossfight(not accesible)
-Here you will have to fight a boss where you just outlast him by dodging and staying away from him.
+Here you will have to fight a boss where you  outlast him by dodging and staying away from him.
 - And more content coming soon
 - **possebly**
