@@ -1,3 +1,4 @@
+//level 1 (pickup plus death cubes)
 var SceneOne = new Phaser.Class(function(){
     var bom = 0
     var score = 0;
@@ -25,6 +26,7 @@ var SceneOne = new Phaser.Class(function(){
         this.load.image('sky', 'assets/sky1.png');
         this.load.image('ground', 'assets/platform.png');
         this.load.image('star', 'assets/star3.png');
+        
         this.load.image('bomb', 'assets/bomb3.png');
         this.load.spritesheet('dude', 
             'assets/dude4.png',

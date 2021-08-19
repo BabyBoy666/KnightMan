@@ -1,3 +1,4 @@
+//boss music 1
 var AudioTwo = new Phaser.Class({
     Extends: Phaser.Scene,
     initialize: function() {

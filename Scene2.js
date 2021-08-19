@@ -1,3 +1,4 @@
+//level 2 (jumping on pickup)
 var SceneTwo = new Phaser.Class(function(){
     var bom = 0
     var score = 0;

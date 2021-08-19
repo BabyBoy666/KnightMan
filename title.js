@@ -1,3 +1,4 @@
+//title
 var Title = new Phaser.Class({
     Extends: Phaser.Scene,
     initialize: function() {
@@ -86,7 +87,7 @@ var Title = new Phaser.Class({
                     loop: false,
                     callback: () => {
                       pmusic.stop()
-                      this.scene.start("SceneThree")
+                      this.scene.start("SceneOne")
                       this.scene.start("AudioOne")
                       this.scene.stop();
                     }
@@ -99,4 +100,4 @@ var Title = new Phaser.Class({
       }
     }
 });
-//SceneOne
+//SceneThree
