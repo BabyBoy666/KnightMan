@@ -1,5 +1,7 @@
+
 //bossfight 1
 var SceneThree = new Phaser.Class(function(){
+    var skip = false
     var bom = 0
     var score = 0;
     var scoreText;
@@ -8,7 +10,12 @@ var SceneThree = new Phaser.Class(function(){
     var isPlaying = false
     var health = 5
     var imun = false
+    var com = true
     var tformv = false
+    var busy = false
+    var press = false
+    var equip = false
+    var go = true
     
 
     return {
@@ -20,6 +27,8 @@ var SceneThree = new Phaser.Class(function(){
       init: function() {
       },
       preload: function() {
+        this.load.atlas('shapes', 'assets/partical emitter test/shapes.png', 'assets/partical emitter test/shapes.json');
+        this.load.text('particleeffect', 'assets/partical emitter test/partical emitter test.json');
         this.load.audio("boop", "./assets/select.mp3");
         this.load.audio("boom", "./assets/boom2.wav");
         this.load.audio("jump", "./assets/jump.wav");
@@ -45,8 +54,9 @@ var SceneThree = new Phaser.Class(function(){
         this.load.spritesheet('boss1', 
             'assets/boss1.png',
             { frameWidth: 42, frameHeight: 64 })
-        this.load.atlas('shapes', 'assets/particle-effect/shapes.png', 'assets/particle-effect/shapes.json');
-        this.load.text('particle-effect', 'assets/particle-effect/particle-effect.json');
+        this.load.spritesheet('contin', 
+            'assets/continue.png',
+            { frameWidth: 64, frameHeight: 64 })
       },
       create: function() {
         this.cameras.main.setBackgroundColor('#ffffff')
@@ -102,6 +112,7 @@ var SceneThree = new Phaser.Class(function(){
             var angle1 = 145
             console.log(angle1)
           }
+          
           console.log("hit2") 
           var vec = this.physics.velocityFromAngle(angle1, 1)
           var dx = Math.cos(angle1) * 1
@@ -132,59 +143,23 @@ var SceneThree = new Phaser.Class(function(){
 
         player = this.physics.add.sprite(100, 450, 'dude');
 
-        var particles = this.add.particles(this.add.image('shapes', 'circle_05'));
-        particles.createEmitter({
-          active:true, 
-          visible:true,
-          collideBottom:true,
-          collideLeft:true,
-          collideRight:true,
-          collideTop:true,
-          on:true,
-          particleBringToTop:true,
-          radial:true,
-          frequency:100,
-          gravityX:0,
-          gravityY:30,
-          maxParticles:30,
-          timeScale:2,
-          blendMode:0,
-          accelerationX:0,
-          accelerationY:0,
-          alpha:1,
-          angle:{min:0,max:360,ease:"Linear"},
-          bounce:0,
-          delay:0,
-          lifespan:{ease:"Linear",min:1000,max:10000},
-          maxVelocityX:10000,
-          maxVelocityY:10000,
-          moveToX:{ease:"Linear",min:0,max:1000},
-          moveToY:0,
-          quantity:1,
-          rotate:1,
-          scale:1,
-          speed:[1,0],
-          x:470,
-          y:380,
-          name:"parta",
-          tint:[16711680,13504014,5899268,16719647,9573653],
-          emitZone:{source:new Phaser.Geom.Rectangle(-50,-60,50,50),type:'random'}
-        })
-        var particle = particles.emitters.getByName("parta");
-        particle.start();
-        particle.pause();  
+          
 
         player.setBounce(0.2);
         player.setCollideWorldBounds(true);
-        this.physics.add.collider(player, platforms);
-        particle.startFollow(player);
-        
+        this.physics.add.collider(player, platforms, retform, null, this);
+        var particles = this.add.particles('shapes',  new Function('return ' + this.cache.text.get('particleeffect'))());
+        emitter = particles.createEmitter(player.x,  player.y, 50);
+        emitter.start()
+        //emitter.fromJSON(config);
         scoreText = this.add.text(16, 16, 'score: 0', { fontSize: '32px', fill: '#000' });
         bombs = this.physics.add.group();
         this.physics.add.collider(bombs, platforms);
         bombs2 = this.physics.add.group();
         bombs3 = this.physics.add.group();
         bombsS = this.physics.add.group();
+        items = this.physics.add.group();
+
         
         
 
@@ -195,6 +170,16 @@ var SceneThree = new Phaser.Class(function(){
             frames: this.anims.generateFrameNumbers('boss1', { start: 4, end: 5 }),
             frameRate: 10,
             repeat: -1
+        });
+        this.anims.create({
+            key: 'over',
+            frames: [ { key: 'contin', frame: 1 } ],
+            frameRate: 20
+        });
+        this.anims.create({
+            key: 'nover',
+            frames: [ { key:  'contin', frame: 0 } ],
+            frameRate: 20
         });
         this.anims.create({
             key: 'solid',
@@ -241,17 +226,33 @@ var SceneThree = new Phaser.Class(function(){
             frameRate: 10,
             repeat: -1
         });
-
+        this.anims.create({
+            key: 'left2',
+            frames: this.anims.generateFrameNumbers('dude', { start: 59, end: 62 }),
+            frameRate: 10,
+            repeat: -1
+        });
 
         this.anims.create({
             key: 'turn',
             frames: [ { key: 'dude', frame: 4 } ],
             frameRate: 20
         });
+        this.anims.create({
+            key: 'turn2',
+            frames: [ { key: 'dude', frame: 63 } ],
+            frameRate: 20
+        });
 
         this.anims.create({
             key: 'right',
             frames: this.anims.generateFrameNumbers('dude', { start: 5, end: 8 }),
+            frameRate: 10,
+            repeat: -1
+        });
+        this.anims.create({
+            key: 'right2',
+            frames: this.anims.generateFrameNumbers('dude', { start: 64, end: 67 }),
             frameRate: 10,
             repeat: -1
         });
@@ -272,6 +273,16 @@ var SceneThree = new Phaser.Class(function(){
             frames: this.anims.generateFrameNumbers('sworb', { start: 5, end: 45 }),
             frameRate: 10,
         });
+        this.anims.create({
+            key: 'downd',
+            frames: this.anims.generateFrameNumbers('dude', { start: 9, end: 40 }),
+            frameRate: 30,
+        });
+        this.anims.create({
+            key: 'reform',
+            frames: this.anims.generateFrameNumbers('dude', { start: 41, end: 58 }),
+            frameRate: 10,
+        });
         //5-45
         sworbcreate = () =>{
           orb5 = bombsS.create(390, 250, 'sworb').setScale(2);
@@ -279,6 +290,7 @@ var SceneThree = new Phaser.Class(function(){
           orb5.setBounce(0.3);
           orb5.setCollideWorldBounds(true);
           orb5.anims.play('sbnorm', true);
+          items.add(orb5)
           this.physics.add.collider(orb5, platforms);
           this.physics.add.overlap(player, orb5, tformF, null, this);
         }
@@ -293,11 +305,12 @@ var SceneThree = new Phaser.Class(function(){
         });
         this.physics.add.collider(stars, platforms);
         this.physics.add.overlap(player, stars, collectStar, null, this);
+        this.physics.add.overlap(player, items, collectItem, null, this);
         this.physics.add.overlap(player, platforms,under, null, this);
         this.physics.add.collider(bombs2, wall, borderh, null, this)
         this.physics.add.collider(bombs2, platforms, borderh, null, this)
-        //this.physics.add.collider(player, bombs,touchEnemy, null, this);
-        //this.physics.add.collider(player, bombs2,touchEnemy, null, this);
+        this.physics.add.collider(player, bombs,touchEnemy, null, this);
+        this.physics.add.collider(player, bombs2,touchEnemy, null, this);
         /*
         function onWorldBounds (bomb){
           bomb.disableBody(true, true);
@@ -308,6 +321,28 @@ var SceneThree = new Phaser.Class(function(){
             orb5.setVelocity(0, -540);
             orb5.anims.play('tform', true);
             tformv = true
+          }
+        }
+        function collectItem (player, item){ 
+          if(press == true){
+            if(item == orb5){
+              equip = true
+            }
+            item.disableBody(true, true)
+          }
+        }
+        function retform (player){
+          if (busy){
+            player.anims.play('reform', true)
+            this.time.addEvent({
+              delay: 1800,
+              loop: false,
+              callback: () => {
+                player.body.setAllowGravity(true)
+                player.setBounce(0.2);
+                busy = false
+              }
+            });
           }
         }
         function enh(bomb, enemy){
@@ -332,29 +367,18 @@ var SceneThree = new Phaser.Class(function(){
           player.y = 400
         }
         function touchEnemy(player, enemy) {
-          if (imun == false){
-            particle.resume();  
-            this.time.addEvent({
-              delay: 50,
-              loop: false,
-              callback: () => {
-                particle.pause();
-                this.time.addEvent({
-                  delay: 50,
-                  loop: false,
-                  callback: () => {
-                    particle.killAll()
-                  }
-                })
-              }
-            })
-            imun = true
-            player.setTint(0x808080);
-            enemy.body.velocity.x *= -1;
-            player.body.velocity.x *= -1;
-            liv = "liv"+health
-            eval(`${liv}.disableBody(true, true);`)
-            health = health - 1
+          if (busy){
+            return
+          }else{
+            if (imun == false){              
+              imun = true
+              player.setTint(0x808080);
+              enemy.body.velocity.x *= -1;
+              player.body.velocity.x *= -1;
+              liv = "liv"+health
+              eval(`${liv}.disableBody(true, true);`)
+              health = health - 1
+            }
           }
           if (imun == true){
             this.time.addEvent({
@@ -367,6 +391,7 @@ var SceneThree = new Phaser.Class(function(){
             })
           }
         }
+        sworbcreate()
         function collectStar (player, star)
         {
           star.disableBody(true, true); 
@@ -410,11 +435,10 @@ var SceneThree = new Phaser.Class(function(){
                           enemy.anims.play('stand1', true);
                           enemy.body.setAllowGravity(false)
                           enemy.setBounce(1);
-                          /** 
                           this.time.addEvent({
                             delay: 5000,
                             loop: false,
-                            repeat: 30, 
+                            repeat: 19, 
                             callback: () => {
                               enemy.anims.play('stand1', true);
                               enemy.setVelocity(Phaser.Math.Between(-400, 400), Phaser.Math.Between(-400, 400));
@@ -427,13 +451,17 @@ var SceneThree = new Phaser.Class(function(){
                                   }
                                   enemy.anims.play('launch1', true);
                                   var x = enemy.x + 30
-                                  var speedx = enemy.x 
                                   var y = enemy.y - 10
-                                  var speedy = enemy.y 
+                                  var preangle = Phaser.Math.Angle.Between(x, y, player.x, player.y)
+                                  var angle = Phaser.Math.RadToDeg(preangle);
+                                  var vec = this.physics.velocityFromAngle(angle, 1)
+                                  vecx = vec.x * 300
+                                  vecy = vec.y * 300
                                   orb = bombs.create(x, y, 'orb').setScale(2);
                                   orb.setBounce(1);
+                                  orb.body.setAllowGravity(false)
                                   orb.setCollideWorldBounds(true);
-                                  orb.setVelocity(speedx, speedy);
+                                  orb.setVelocity(vecx, vecy);
                                   orb.anims.play('norm', true);
                                   this.time.addEvent({
                                     delay: 2000,
@@ -444,13 +472,17 @@ var SceneThree = new Phaser.Class(function(){
                                       }
                                       enemy.anims.play('rlaunch1', true); 
                                       var x = enemy.x + 30
-                                      var speedx = enemy.x 
                                       var y = enemy.y + 10
-                                      var speedy = enemy.y
+                                      var preangle = Phaser.Math.Angle.Between(x, y, player.x, player.y)
+                                      var angle = Phaser.Math.RadToDeg(preangle);
+                                      var vec = this.physics.velocityFromAngle(angle, 1)
+                                      vecx = vec.x * 300
+                                      vecy = vec.y * 300
                                       orb2 = bombs.create(x, y, 'orb').setScale(2);
                                       orb2.setBounce(1);
+                                      orb2.body.setAllowGravity(false)
                                       orb2.setCollideWorldBounds(true);
-                                      orb2.setVelocity(speedx, speedy);
+                                      orb2.setVelocity(vecx, vecy);
                                       orb2.anims.play('norm', true);
                                     }
                                   })
@@ -458,22 +490,22 @@ var SceneThree = new Phaser.Class(function(){
                               })
                             }
                           })
-                          */ 
+                          
                           timea = 0
                           this.time.addEvent({
                             delay: 5000,
                             loop: false,
-                            //repeat: 30,
+                            repeat: 21,
                             callback: () => {
                               timea += 1
                               console.log(timea)
-                              //if(timea == 31){
+                              if(timea == 22){
                                 console.log(enemy.x)
                                 console.log(enemy.y)
                                 colliderObject.destroy();
                                 console.log('stage one compleate!')  
-                                //orb.disableBody(true, true);
-                                //orb2.disableBody(true, true);
+                                orb.disableBody(true, true);
+                                orb2.disableBody(true, true);
                                 enemy.setVelocity(0,0)
                                 enemy.anims.play('solid')
                                 enemy.x = 400
@@ -2307,7 +2339,7 @@ var SceneThree = new Phaser.Class(function(){
                                     });
                                   }
                                 });
-                              //}
+                              }
                             }
                           });
                         }
@@ -2345,39 +2377,76 @@ var SceneThree = new Phaser.Class(function(){
         var key = this.input.keyboard.addKey("A");
         var ps = this.input.keyboard.addKey("ESC");
         var isDown = ps.isDown;
-        
+        var downdf = () => {
+          player.body.setAllowGravity(false)
+          player.setVelocityX(0)
+          player.setVelocityY(0)
+          player.anims.play('downd', true)
+            this.time.addEvent({
+              delay: 1000,
+              loop: false,
+              callback: () => {
 
+                player.setVelocityY(500);
+              }
+            });
+        }
+        if (key.isDown){
+          press = true
+        }else{
+          press = false
+        }
 
-
-        if (cursors.left.isDown)
+        if (cursors.left.isDown && !busy)
         {
             player.setVelocityX(-160);
 
-            player.anims.play('left', true);
+            if(equip){
+              player.anims.play('left2', true);
+            }else{
+              player.anims.play('left', true);
+            }
         }
-        else if (cursors.right.isDown)
-        {
+        else if (cursors.right.isDown && !busy)
+        { 
             player.setVelocityX(160);
 
-            player.anims.play('right', true);
-        }
-        else
+            if(equip){
+              player.anims.play('right2', true);
+            }else{
+              player.anims.play('right', true);
+            }        }
+        else if (!busy)
         {
             player.setVelocityX(0);
 
-            player.anims.play('turn');
+            if(equip){
+              player.anims.play('turn2', true);
+            }else{
+              player.anims.play('turn', true);
+            }
         }
 
-        if (cursors.up.isDown && player.body.touching.down)
+        if (cursors.up.isDown && player.body.touching.down && !busy)
         {
+            emitter.start()
             jump.play();
             player.setVelocityY(-480);
+            
+        }
+        if (cursors.down.isDown && !player.body.touching.down && !busy){
+          player.setBounce(0);
+          busy = true
+          downdf()
         }
         if(ps.isDown && ready == true){
           select.play();
           this.scene.launch('Pause',{
             serv:"Three"
           })
+          if(busy == true){
+            player.body.setVelocityY(-480);
+          }
           this.scene.pause(); 
           ps = null
           this.input.keyboard.removeKey('ESC'); 
@@ -2387,16 +2456,38 @@ var SceneThree = new Phaser.Class(function(){
           isPlaying = true
           
         }
+        if(equip == true && com == true){
+          next = true
+          cont = this.add.sprite(750, 50, 'contin')
+          cont.setInteractive();
+          com = false
+          
+        };
+
+        //next lv button
+        if(com == false && go == true){
+          cont.on('pointerover', () => { 
+            cont.anims.play('over')
+          })
+          cont.on('pointerout', () => { 
+            cont.anims.play('nover')
+          })
+          cont.on('pointerdown', () => { 
+            go = false
+            select.play();
+            skip = true
+          })
+        }
+        if (skip == true){
+          this.scene.start("SceneFour")
+          this.scene.stop();   
+          skip = false
+        } 
         if(rls == true){
-          //this.scene.stop();
-          //this.scene.start('SceneOne');
-          this.registry.destroy();
-          this.events.off();
-          score = 0
-          isPlaying = true
-          this.scene.restart();
-          isPlaying = true
-          //this.events.on();
+          //this.registry.destroy();
+          //this.events.off();
+          //score = 0
+          //this.scene.restart();
           rls = false; 
         }
         

@@ -1,0 +1,21 @@
+var *** = new Phaser.Class(function(){
+    //var ***
+    return {
+      Extends: Phaser.Scene,
+      initialize: function() {
+          Phaser.Scene.call(this, { "key": "***" });
+      },
+      init: function() {
+
+      },
+      preload: function() {
+
+      },
+      
+      create: function() {
+        
+      },
+      update: function() {
+        
+      }
+}}());

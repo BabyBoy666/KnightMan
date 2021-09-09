@@ -13,7 +13,7 @@ var Title = new Phaser.Class({
       ready = false
       pmusic = this.sound.add("music", { loop: true });
       select = this.sound.add("boop", { loop: false });
-      pmusic.play();
+      //pmusic.play();
         text = this.add.text(
             400, 
             300, 
@@ -87,7 +87,7 @@ var Title = new Phaser.Class({
                     loop: false,
                     callback: () => {
                       pmusic.stop()
-                      this.scene.start("SceneOne")
+                      this.scene.start("SceneFour")
                       this.scene.start("AudioOne")
                       this.scene.stop();
                     }

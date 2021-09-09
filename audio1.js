@@ -10,7 +10,7 @@ var AudioOne = new Phaser.Class({
     },
     create: function() {
       pmusic1 = this.sound.add("music1", { loop: true });
-      pmusic1.play()
+      //pmusic1.play()
     },
     update: function() {}
 });
