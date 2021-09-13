@@ -134,7 +134,7 @@ var SceneOne = new Phaser.Class(function(){
 
             var x = (player.x < 400) ? Phaser.Math.Between(400, 800) : Phaser.Math.Between(0, 400);
 
-            bomb = bombs.create(x, 16, 'bomb');
+            bomb = bombs.create(x, 16, 'bomb').setScale(2);
             bomb.setBounce(1);
             bomb.setCollideWorldBounds(true);
             bomb.setVelocity(Phaser.Math.Between(-200, 200), 20);
