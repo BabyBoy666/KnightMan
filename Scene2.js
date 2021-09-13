@@ -22,7 +22,9 @@ var SceneTwo = new Phaser.Class(function(){
         this.load.image('ground', 'assets/platform.png');
         this.load.image('star', 'assets/star3.png');
         this.load.image('sstar', 'assets/superstar.png');
-        this.load.image('bomb', 'assets/bomb3.png');
+        this.load.spritesheet('bomb',
+            'assets/orb2.png',
+            { frameWidth: 15, frameHeight: 15 })
         this.load.spritesheet('dude', 
             'assets/dude4.png',
             { frameWidth: 48, frameHeight: 64 })
