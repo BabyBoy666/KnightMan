@@ -1,8 +1,8 @@
 Knight Man
 -
-This game was created by [ElliotMassey](https://replit.com/@ElliotMassey) for the purpose of entertainment. So enjoy.
+This game was created by [BabyBoy](https://replit.com/@BabyBoy666) for the purpose of entertainment. So enjoy.
  
-Elliot Massey created the code while [BenjaminWatts1](https://replit.com/@BenjaminWatts1) created the readme and some of the sounds,
+BabyBoy666 created the code while [BenjaminWatts1](https://replit.com/@BenjaminWatts1) created the readme and some of the sounds,
 and some of the images such as the fireball in the bossfight scene.
 
 **here are some examples of the audio clips.**
