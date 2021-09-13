@@ -1,4 +1,4 @@
-//level 1 (pickup plus death cubes)
+//level 5 (pickup plus death cubes)
 var SceneFive = new Phaser.Class(function(){
     var bom = 0
     var score = 0;
@@ -25,6 +25,7 @@ var SceneFive = new Phaser.Class(function(){
         this.load.audio("hit", "./assets/hit.wav");
         this.load.image('sky', 'assets/sky1.png');
         this.load.image('ground', 'assets/platform.png');
+        this.load.image('uground', 'assets/uplatform.png');
         this.load.image('star', 'assets/star3.png');
         
         this.load.spritesheet('bomb',
@@ -45,10 +46,9 @@ var SceneFive = new Phaser.Class(function(){
         this.add.image(0, 0, 'sky').setOrigin(0, 0)
         platforms = this.physics.add.staticGroup();
         platforms.create(400, 568, 'ground').setScale(2).refreshBody();
-
-        platforms.create(600, 400, 'ground');
-        platforms.create(50, 250, 'ground');
-        platforms.create(750, 220, 'ground');
+        platforms.create(500, 568, 'uground').setScale(2).refreshBody();
+        
+        
         player = this.physics.add.sprite(100, 450, 'dude');
 
         player.setBounce(0.2);
