@@ -45,8 +45,12 @@ var SceneFive = new Phaser.Class(function(){
         jump = this.sound.add("jump", { loop: false });
         this.add.image(0, 0, 'sky').setOrigin(0, 0)
         platforms = this.physics.add.staticGroup();
+        contane = this.physics.add.staticGroup();
         platforms.create(400, 568, 'ground').setScale(2).refreshBody();
-        platforms.create(500, 568, 'uground').setScale(2).refreshBody();
+        var uplat = platforms.create(500, 450, 'uground').refreshBody();
+        contane.add(uplat)
+        var plat = platforms.create(685, 365, 'ground').refreshBody();
+        contane.add(plat)
         
         
         player = this.physics.add.sprite(100, 450, 'dude');
