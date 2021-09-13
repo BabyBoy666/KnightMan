@@ -27,7 +27,6 @@ var SceneFour = new Phaser.Class(function () {
       this.load.image('sky', 'assets/sky1.png');
       this.load.image('ground', 'assets/platform.png');
       this.load.image('star', 'assets/star3.png');
-      this.load.image('bomb', 'assets/bomb3.png');
       this.load.image('hitbox', 'assets/Hitbox.png');
       this.load.spritesheet('dude',
         'assets/dude4.png',
