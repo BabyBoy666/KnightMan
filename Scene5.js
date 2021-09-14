@@ -11,6 +11,7 @@ var SceneFive = new Phaser.Class(function(){
     var skip = false
     var go = true
     var boss = false
+    var ofree = false
     return {
       Extends: Phaser.Scene,
       initialize: function() {
@@ -51,14 +52,7 @@ var SceneFive = new Phaser.Class(function(){
         contane.add(uplat)
         var plat = platforms.create(685, 365, 'ground').refreshBody();
         contane.add(plat)
-        var i = 0
-        while(i < 3){
-          bomb = bombs.create(700, 500, 'bomb').setScale(2);
-          bomb.setBounce(1);
-          bomb.setCollideWorldBounds(true);
-          bomb.setVelocity(Phaser.Math.Between(-200, 200), 20);
-          i += 1
-        }
+        
         
         
         player = this.physics.add.sprite(100, 450, 'dude');
@@ -70,7 +64,14 @@ var SceneFive = new Phaser.Class(function(){
         scoreText = this.add.text(16, 16, 'score: 0', { fontSize: '32px', fill: '#000' });
         bombs = this.physics.add.group();
         this.physics.add.collider(bombs, platforms);
-
+        var i = 0
+        while(i < 3){
+          bomb = bombs.create(700, 500, 'bomb').setScale(2);
+          bomb.setBounce(1);
+          bomb.setCollideWorldBounds(true);
+          bomb.setVelocity(Phaser.Math.Between(-400, 400), 700);
+          i += 1
+        }
         this.anims.create({
             key: 'over',
             frames: [ { key: 'contin', frame: 1 } ],
@@ -138,10 +139,20 @@ var SceneFive = new Phaser.Class(function(){
           scoreText.setText('Score: ' + score);
           if (stars.countActive(true) === 0)
           {
-            contane.disableBody(true, true)
+            if(ofree == false){
+              contane.children.iterate(function (child){
+                child.disableBody(true, true)
+              });
+              ofree = true
+              stars.children.iterate(function (child) {
+                child.enableBody(true, child.x, 0, true, true);
+              });
+            }else{
+              stars.children.iterate(function (child) {
+                child.enableBody(true, child.x, 0, true, true);
+              });
+            }
           }
-            
-
         }
         var combo = this.input.keyboard.createCombo('wwssdadabaelvl', {
           resetOnWrongKey: true,
@@ -203,7 +214,7 @@ var SceneFive = new Phaser.Class(function(){
       },
       update: function() {
         if (skip == true){
-          this.scene.start("SceneTwo")
+          this.scene.start("SceneOne")
           this.scene.stop();   
           skip = false
         } 
@@ -254,7 +265,7 @@ var SceneFive = new Phaser.Class(function(){
             jump.play();
             player.setVelocityY(-480);
         }
-        if(score == 600 && com == true){
+        if(score == 240 && com == true){
           next = true
           cont = this.add.sprite(750, 50, 'contin')
           cont.setInteractive();
