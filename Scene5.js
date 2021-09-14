@@ -51,6 +51,14 @@ var SceneFive = new Phaser.Class(function(){
         contane.add(uplat)
         var plat = platforms.create(685, 365, 'ground').refreshBody();
         contane.add(plat)
+        var i = 0
+        while(i < 3){
+          bomb = bombs.create(700, 500, 'bomb').setScale(2);
+          bomb.setBounce(1);
+          bomb.setCollideWorldBounds(true);
+          bomb.setVelocity(Phaser.Math.Between(-200, 200), 20);
+          i += 1
+        }
         
         
         player = this.physics.add.sprite(100, 450, 'dude');
@@ -130,19 +138,8 @@ var SceneFive = new Phaser.Class(function(){
           scoreText.setText('Score: ' + score);
           if (stars.countActive(true) === 0)
           {
-            stars.children.iterate(function (child) {
-
-                child.enableBody(true, child.x, 0, true, true);
-
-            });
-
-            var x = (player.x < 400) ? Phaser.Math.Between(400, 800) : Phaser.Math.Between(0, 400);
-
-            bomb = bombs.create(x, 16, 'bomb').setScale(2);
-            bomb.setBounce(1);
-            bomb.setCollideWorldBounds(true);
-            bomb.setVelocity(Phaser.Math.Between(-200, 200), 20);
-          }
+            contane.disableBody(true, true)
+            
 
         }
         var combo = this.input.keyboard.createCombo('wwssdadabaelvl', {
