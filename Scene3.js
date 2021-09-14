@@ -146,7 +146,6 @@ var SceneThree = new Phaser.Class(function(){
 
         player = this.physics.add.sprite(100, 450, 'dude');
 
-          
 
         player.setBounce(0.2);
         player.setCollideWorldBounds(true);
@@ -394,7 +393,6 @@ var SceneThree = new Phaser.Class(function(){
             })
           }
         }
-        sworbcreate()
         function collectStar (player, star)
         {
           star.disableBody(true, true); 

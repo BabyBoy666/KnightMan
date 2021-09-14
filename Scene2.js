@@ -1,11 +1,14 @@
-//level 2 (jumping on pickup)
+//level 2 (jumping on pickup) in progress
 var SceneTwo = new Phaser.Class(function(){
+    var skip = false
     var bom = 0
+    var com = true
     var score = 0; 
     var scoreText; 
     var ready = true
     var rls = false
     var isPlaying = false
+    var go = true
     return {
       Extends: Phaser.Scene,
       initialize: function() {
@@ -126,6 +129,11 @@ var SceneTwo = new Phaser.Class(function(){
         }
       },
       update: function() {
+        if (skip == true){
+          this.scene.start("SceneFive")
+          this.scene.stop();   
+          skip = false
+        } 
         
         cursors = this.input.keyboard.createCursorKeys();
         var key = this.input.keyboard.addKey("A");
@@ -157,6 +165,26 @@ var SceneTwo = new Phaser.Class(function(){
         {
             jump.play();
             player.setVelocityY(-480);
+        }
+        if(score == 20 && com == true){
+          next = true
+          cont = this.add.sprite(750, 50, 'contin')
+          cont.setInteractive();
+          com = false
+          
+        };
+        if(com == false && go == true){
+          cont.on('pointerover', () => { 
+            cont.anims.play('over')
+          })
+          cont.on('pointerout', () => { 
+            cont.anims.play('nover')
+          })
+          cont.on('pointerdown', () => { 
+            go = false
+            select.play();
+            skip = true
+          })
         }
         if(player.body.y == 536 && stop == false){
           stop = true
@@ -200,9 +228,9 @@ var SceneTwo = new Phaser.Class(function(){
           
         }
         if(rls == true){
+          score = 0
           this.registry.destroy();
           this.events.off();
-          score = 0
           this.scene.restart();
           rls = false; 
         }
