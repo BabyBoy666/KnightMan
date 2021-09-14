@@ -13,7 +13,7 @@ You can try the game out here.
 Click the link below.
 And as always have fun.
 
-[click to go to game.](https://knightman.elliotmassey.repl.co/)
+[click to go to game.](https://www.playknightman.cf/)
 
 - There are currently three levels.
 - Level 1
