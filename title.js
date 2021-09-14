@@ -87,6 +87,7 @@ var Title = new Phaser.Class({
                     loop: false,
                     callback: () => {
                       pmusic.stop()
+
                       this.scene.start("SceneOne")
                       this.scene.start("AudioOne")
                       this.scene.stop();
