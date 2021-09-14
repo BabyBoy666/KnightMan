@@ -302,6 +302,7 @@ var SceneFive = new Phaser.Class(function(){
         }
         if(rls == true){
           score = 0
+          ofree = false
           scoreText.setText('Score: ' + score);
           this.registry.destroy();
           this.scene.restart();
