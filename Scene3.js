@@ -42,6 +42,7 @@ var SceneThree = new Phaser.Class(function(){
         this.load.spritesheet('bomb',
             'assets/orb2.png',
             { frameWidth: 15, frameHeight: 15 })
+
         this.load.image('upb', 'assets/upborder.png');
         this.load.image('leftb', 'assets/leftborder.png');
         this.load.spritesheet('dude', 
