@@ -1,3 +1,4 @@
+//after boss fight
 var SceneFour = new Phaser.Class(function () {
   var bom = 0
   var score = 0;
