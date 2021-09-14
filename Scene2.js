@@ -2,11 +2,13 @@
 var SceneTwo = new Phaser.Class(function(){
     var skip = false
     var bom = 0
+    var com = true
     var score = 0; 
     var scoreText; 
     var ready = true
     var rls = false
     var isPlaying = false
+    var go = true
     return {
       Extends: Phaser.Scene,
       initialize: function() {
@@ -164,7 +166,7 @@ var SceneTwo = new Phaser.Class(function(){
             jump.play();
             player.setVelocityY(-480);
         }
-        if(score == 600 && com == true){
+        if(score == 20 && com == true){
           next = true
           cont = this.add.sprite(750, 50, 'contin')
           cont.setInteractive();
@@ -226,9 +228,9 @@ var SceneTwo = new Phaser.Class(function(){
           
         }
         if(rls == true){
+          score = 0
           this.registry.destroy();
           this.events.off();
-          score = 0
           this.scene.restart();
           rls = false; 
         }
