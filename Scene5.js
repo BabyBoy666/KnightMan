@@ -139,6 +139,7 @@ var SceneFive = new Phaser.Class(function(){
           if (stars.countActive(true) === 0)
           {
             contane.disableBody(true, true)
+          }
             
 
         }
