@@ -1,4 +1,4 @@
-//level 5 (pickup plus death cubes)
+//level 3 (pickup plus death cubes)
 var SceneFive = new Phaser.Class(function(){
     var bom = 0
     var score = 0;
