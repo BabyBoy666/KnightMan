@@ -301,15 +301,10 @@ var SceneFive = new Phaser.Class(function(){
           
         }
         if(rls == true){
-          //this.scene.stop();
-          //this.scene.start('SceneOne');
-          this.registry.destroy();
-          this.events.off();
           score = 0
-          isPlaying = true
+          scoreText.setText('Score: ' + score);
+          this.registry.destroy();
           this.scene.restart();
-          isPlaying = true
-          //this.events.on();
           rls = false; 
         }
         
