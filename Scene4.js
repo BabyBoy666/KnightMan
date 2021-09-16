@@ -284,12 +284,14 @@ var SceneFour = new Phaser.Class(function () {
 
       if (cursors.left.isDown && !busy)
         {
+          dir = "left"
             player.setVelocityX(-160);
 
               player.anims.play('left', true);
         }
         else if (cursors.right.isDown && !busy)
         { 
+          dir = "right"
             player.setVelocityX(160);
               player.anims.play('right', true);
            }
