@@ -153,7 +153,7 @@ var SceneSix = new Phaser.Class(function(){
           text = this.add.text(
             400, 
             300, 
-            "\tDown Dash unlocked!\n use down arrow in the air!\n\n \t\tGet ready for the\n \t\tboss fight!", 
+            "\t\t\tDown Dash unlocked!\n Use down arrow in the air!\n\n \t\tGet ready for the\n \t\tboss fight!", 
             {
                 fontSize: 50,
                 color: "#000000",
