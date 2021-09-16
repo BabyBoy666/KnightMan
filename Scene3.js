@@ -2485,11 +2485,41 @@ var SceneThree = new Phaser.Class(function(){
           skip = false
         } 
         if(rls == true){
-          //this.registry.destroy();
-          //this.events.off();
-          //score = 0
-          //this.scene.restart();
+          this.registry.destroy();
+          this.events.off();
+          score = 0
+          skip = false
+          bom = 0
+          score = 0;
+          scoreText;
+          ready = true
+          rls = false
+          isPlaying = false
+          health = 5
+          imun = false
+          com = true
+          tformv = false
+          busy = false
+          press = false
+          equip = false
+          go = true
+          this.scene.restart();
           rls = false; 
+          skip = false
+          bom = 0
+          score = 0;
+          scoreText;
+          ready = true
+          rls = false
+          isPlaying = false
+          health = 5
+          imun = false
+          com = true
+          tformv = false
+          busy = false
+          press = false
+          equip = false
+          go = true
         }
         
       }

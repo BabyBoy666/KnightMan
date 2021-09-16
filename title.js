@@ -88,7 +88,7 @@ var Title = new Phaser.Class({
                     callback: () => {
                       pmusic.stop()
 
-                      this.scene.start("SceneOne")
+                      this.scene.start("SceneSix")
                       this.scene.start("AudioOne")
                       this.scene.stop();
                     }
