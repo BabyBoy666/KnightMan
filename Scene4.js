@@ -14,6 +14,7 @@ var SceneFour = new Phaser.Class(function () {
   var dir = "left"
   var delay = false
   var atk = false
+  var busy = false
   return {
     Extends: Phaser.Scene,
     initialize: function () {
@@ -29,6 +30,9 @@ var SceneFour = new Phaser.Class(function () {
       this.load.image('ground', 'assets/platform.png');
       this.load.image('star', 'assets/star3.png');
       this.load.image('hitbox', 'assets/Hitbox.png');
+      this.load.spritesheet('bomb',
+            'assets/orb2.png',
+            { frameWidth: 15, frameHeight: 15 })
       this.load.spritesheet('dude',
         'assets/dude4.png',
         { frameWidth: 48, frameHeight: 64 })
@@ -55,7 +59,7 @@ var SceneFour = new Phaser.Class(function () {
 
       player.setBounce(0.2);
       player.setCollideWorldBounds(true);
-      this.physics.add.collider(player, platforms);
+      this.physics.add.collider(player, platforms, retform, null, this);
       swordc = this.physics.add.sprite(15, 575, 'swordc');
       swordc.body.setAllowGravity(false)
 
@@ -145,6 +149,20 @@ var SceneFour = new Phaser.Class(function () {
       function kill(enemy) {
         enemy.disableBody(true, true)
       }
+      function retform (player){
+          if (busy){
+            player.anims.play('reform', true)
+            this.time.addEvent({
+              delay: 1800,
+              loop: false,
+              callback: () => {
+                player.body.setAllowGravity(true)
+                player.setBounce(0.2);
+                busy = false
+              }
+            });
+          }
+        }
       function collectStar(player, star) {
         star.disableBody(true, true);
         score += 10;
@@ -243,6 +261,20 @@ var SceneFour = new Phaser.Class(function () {
       var key = this.input.keyboard.addKey("A");
       var ps = this.input.keyboard.addKey("ESC");
       var isDown = ps.isDown;
+        var downdf = () => {
+          player.body.setAllowGravity(false)
+          player.setVelocityX(0)
+          player.setVelocityY(0)
+          player.anims.play('downd', true)
+            this.time.addEvent({
+              delay: 1000,
+              loop: false,
+              callback: () => {
+
+                player.setVelocityY(500);
+              }
+            });
+        }
       //
       //"up", "up", "down", "down", "left", "right" "left", "right", "ba", "space", "lvl"
       var attk = this.input.keyboard.addKey("SPACE");
@@ -250,28 +282,35 @@ var SceneFour = new Phaser.Class(function () {
 
 
 
-      if (cursors.left.isDown) {
-        player.setVelocityX(-160);
+      if (cursors.left.isDown && !busy)
+        {
+            player.setVelocityX(-160);
 
-        player.anims.play('left', true);
-        dir = "left"
-      }
-      else if (cursors.right.isDown) {
-        player.setVelocityX(160);
+              player.anims.play('left', true);
+        }
+        else if (cursors.right.isDown && !busy)
+        { 
+            player.setVelocityX(160);
+              player.anims.play('right', true);
+           }
+        else if (!busy)
+        {
+            player.setVelocityX(0);
 
-        player.anims.play('right', true);
-        dir = "right"
-      }
-      else {
-        player.setVelocityX(0);
+              player.anims.play('turn', true);
+        }
 
-        player.anims.play('turn');
-      }
-
-      if (cursors.up.isDown && player.body.touching.down) {
-        jump.play();
-        player.setVelocityY(-480);
-      }
+        if (cursors.up.isDown && player.body.touching.down && !busy)
+        {
+            jump.play();
+            player.setVelocityY(-480);
+            
+        }
+        if (cursors.down.isDown && !player.body.touching.down && !busy){
+          player.setBounce(0);
+          busy = true
+          downdf()
+        }
       if (score == 600 && com == true) {
         next = true
         cont = this.add.sprite(750, 50, 'contin')
@@ -307,9 +346,25 @@ var SceneFour = new Phaser.Class(function () {
         isPlaying = true
 
       }
+      
       if (rls == true) {
         //this.scene.stop();
-        //this.scene.start('SceneOne');
+        //this.scene.start('SceneOne')
+        bom = 0
+        score = 0;
+        scoreText;
+        ready = true
+        rls = false
+        isPlaying = false
+        com = true
+        first = true
+        skip = false
+        go = true
+        boss = false
+        dir = "left"
+        delay = false
+        atk = false
+        busy = false
         this.registry.destroy();
         this.events.off();
         score = 0
@@ -319,7 +374,7 @@ var SceneFour = new Phaser.Class(function () {
         //this.events.on();
         rls = false;
       }
-      if (attk.isDown && atk == false) {
+      if (attk.isDown && atk == false && !busy) {
         this.scene.setVisible(false);
         this.scene.launch('Slash', {
           serv: "Four",
