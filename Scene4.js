@@ -350,6 +350,7 @@ var SceneFour = new Phaser.Class(function () {
       }
       
       if (rls == true) {
+        rls = false;
         //this.scene.stop();
         //this.scene.start('SceneOne')
         bom = 0
