@@ -26,6 +26,7 @@ var SceneSix = new Phaser.Class(function(){
         this.load.audio("hit", "./assets/hit.wav");
         this.load.image('sky', 'assets/sky1.png');
         this.load.image('ground', 'assets/platform.png');
+        this.load.image('shortground', 'assets/shortplatform.png');
         this.load.image('uground', 'assets/uplatform.png');
         this.load.image('star', 'assets/star3.png');
         
@@ -47,6 +48,9 @@ var SceneSix = new Phaser.Class(function(){
         this.add.image(0, 0, 'sky').setOrigin(0, 0)
         platforms = this.physics.add.staticGroup();
         platforms.create(400, 568, 'ground').setScale(2).refreshBody();
+        platforms.create(400, 300, 'shortground').refreshBody();
+        platforms.create(400, 200, 'shortground').refreshBody();
+        platforms.create(400, 100, 'shortground').refreshBody();
         
         
         
@@ -101,20 +105,8 @@ var SceneSix = new Phaser.Class(function(){
           frameRate: 10,
         });
         player.body.setGravityY(300)
-        stars = this.physics.add.group({
-          setScale: 3,
-          key: 'star',
-          repeat: 11,
-          setXY: { x: 12, y: 0, stepX: 70 }
-        });
-
-        stars.children.iterate(function (child) {
-
-          child.setBounceY(Phaser.Math.FloatBetween(0.4, 0.8));
-
-        });
-        this.physics.add.collider(stars, platforms);
-        this.physics.add.overlap(player, stars, collectStar, null, this);
+        
+        
         this.physics.add.collider(player, bombs, hitBomb,  null, this);
         function hitBomb (player, bomb)
         {
@@ -131,28 +123,7 @@ var SceneSix = new Phaser.Class(function(){
             gameOver = true;
           }
         }
-        function collectStar (player, star)
-        {
-          star.disableBody(true, true);
-          score += 10;
-          scoreText.setText('Score: ' + score);
-          if (stars.countActive(true) === 0)
-          {
-            if(ofree == false){
-              contane.children.iterate(function (child){
-                child.disableBody(true, true)
-              });
-              ofree = true
-              stars.children.iterate(function (child) {
-                child.enableBody(true, child.x, 0, true, true);
-              });
-            }else{
-              stars.children.iterate(function (child) {
-                child.enableBody(true, child.x, 0, true, true);
-              });
-            }
-          }
-        }
+        
         var combo = this.input.keyboard.createCombo('wwssdadabaelvl', {
           resetOnWrongKey: true,
           maxKeyDelay: 1000,
