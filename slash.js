@@ -42,7 +42,7 @@ var Slash = new Phaser.Class(function(){
           slashsp.anims.play('slaleft', true)
           slashsp.on('animationcomplete_slaleft', function () {
             slashsp.disableBody(true, true)
-            this.scene.resume(servr);
+            this.scene.resume(servr,{"rld": false});
             this.scene.stop();
           }, this);
         }else{
@@ -56,7 +56,7 @@ var Slash = new Phaser.Class(function(){
           slashsp.anims.play('slaright', true)
           slashsp.on('animationcomplete_slaright', function () {
             slashsp.disableBody(true, true)
-            this.scene.resume(servr);
+            this.scene.resume(servr,{"rld": false});
             this.scene.stop();
           }, this);
         }
