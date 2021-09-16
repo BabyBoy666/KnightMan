@@ -27,6 +27,7 @@ var SceneSix = new Phaser.Class(function(){
         this.load.image('sky', 'assets/sky1.png');
         this.load.image('ground', 'assets/platform.png');
         this.load.image('shortground', 'assets/shortplatform.png');
+        this.load.image('groundfrag', 'assets/platformfrag.png');
         this.load.image('uground', 'assets/uplatform.png');
         this.load.image('star', 'assets/star3.png');
         
@@ -47,15 +48,20 @@ var SceneSix = new Phaser.Class(function(){
         jump = this.sound.add("jump", { loop: false });
         this.add.image(0, 0, 'sky').setOrigin(0, 0)
         platforms = this.physics.add.staticGroup();
+        platform = this.physics.add.staticGroup();
         platforms.create(400, 568, 'ground').setScale(2).refreshBody();
-        platforms.create(400, 300, 'shortground').refreshBody();
-        platforms.create(400, 200, 'shortground').refreshBody();
-        platforms.create(400, 100, 'shortground').refreshBody();
+        plat = platform.create(400, 300, 'shortground').refreshBody();
+        plat = platform.create(400, 200, 'shortground').refreshBody();
+        plat = platform.create(400, 100, 'shortground').refreshBody();
         
         
         
         
         player = this.physics.add.sprite(100, 450, 'dude');
+        orb = this.physics.add.sprite(400, 0, 'bomb').setScale(2)
+        orb.setTint(0x00ffff)
+        orb.setBounce(0.6)
+        this.physics.add.collider(platforms, orb);
 
         player.setBounce(0.2);
         player.setCollideWorldBounds(true);
@@ -108,6 +114,23 @@ var SceneSix = new Phaser.Class(function(){
         
         
         this.physics.add.collider(player, bombs, hitBomb,  null, this);
+        this.physics.add.collider(platform, orb, plathit,  null, this);
+        function plathit (orb, platform){
+          
+              var x = platform.x 
+              var y = platform.y
+              platform.disableBody(true, true) 
+              plat2 = this.physics.add.sprite(x+25, y, 'groundfrag');
+              plat2.setVelocity(Phaser.Math.Between(-400, 400), Phaser.Math.Between(-400, 400))
+              plat2 = this.physics.add.sprite(x-25, y, 'groundfrag');
+              plat2.setVelocity(Phaser.Math.Between(-400, 400), Phaser.Math.Between(-400, 400))
+              plat2 = this.physics.add.sprite(x+75, y, 'groundfrag');
+              plat2.setVelocity(Phaser.Math.Between(-400, 400), Phaser.Math.Between(-400, 400))
+              plat2 = this.physics.add.sprite(x-75, y, 'groundfrag');
+              plat2.setVelocity(Phaser.Math.Between(-400, 400), Phaser.Math.Between(-400, 400))
+            //}
+          //}, this);
+        }
         function hitBomb (player, bomb)
         {
           if(next == true){
