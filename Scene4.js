@@ -350,9 +350,14 @@ var SceneFour = new Phaser.Class(function () {
       }
       
       if (rls == true) {
-        rls = false;
         //this.scene.stop();
         //this.scene.start('SceneOne')
+        this.registry.destroy();
+        this.events.off();
+        score = 0
+        isPlaying = true
+        this.scene.restart();
+        isPlaying = true
         bom = 0
         score = 0;
         scoreText;
@@ -368,12 +373,6 @@ var SceneFour = new Phaser.Class(function () {
         delay = false
         atk = false
         busy = false
-        this.registry.destroy();
-        this.events.off();
-        score = 0
-        isPlaying = true
-        this.scene.restart();
-        isPlaying = true
         //this.events.on();
         rls = false;
       }
