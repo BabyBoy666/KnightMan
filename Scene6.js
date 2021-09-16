@@ -115,6 +115,7 @@ var SceneSix = new Phaser.Class(function(){
         
         this.physics.add.collider(player, bombs, hitBomb,  null, this);
         this.physics.add.collider(platform, orb, plathit,  null, this);
+        this.physics.add.overlap(player, orb, collect,  null, this);
         function plathit (orb, platform){
           
               var x = platform.x 
@@ -145,6 +146,28 @@ var SceneSix = new Phaser.Class(function(){
 
             gameOver = true;
           }
+        }
+        function collect(){
+          
+          orb.disableBody(true, true)
+          text = this.add.text(
+            400, 
+            300, 
+            "\tDown Dash unlocked!\n use down arrow in the air!\n\n \t\tGet ready for the\n \t\tboss fight!", 
+            {
+                fontSize: 50,
+                color: "#000000",
+                fontStyle: "bold"
+            }
+        ).setOrigin(0.5);
+          this.physics.pause();
+          this.time.addEvent({
+            delay: 5000,
+            loop: false,
+            callback: function (){
+               skip = true
+            }
+          },this);
         }
         
         var combo = this.input.keyboard.createCombo('wwssdadabaelvl', {
@@ -207,7 +230,7 @@ var SceneSix = new Phaser.Class(function(){
       },
       update: function() {
         if (skip == true){
-          this.scene.start("SceneOne")
+          this.scene.start("SceneThree")
           this.scene.stop();   
           skip = false
         } 

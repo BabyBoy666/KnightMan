@@ -394,7 +394,6 @@ var SceneThree = new Phaser.Class(function(){
             })
           }
         }
-        sworbcreate()
         function collectStar (player, star)
         {
           star.disableBody(true, true); 
