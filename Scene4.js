@@ -342,9 +342,10 @@ var SceneFour = new Phaser.Class(function () {
         this.scene.pause();
         ps = null
         this.input.keyboard.removeKey('ESC');
-        this.events.on('resume', (scene, data) => {
+        pauseev = this.events.on('resume', (scene, data) => {
           rls = data.rld
         });
+        pauseev.destroy();
         isPlaying = true
 
       }
