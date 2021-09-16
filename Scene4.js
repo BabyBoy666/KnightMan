@@ -342,12 +342,10 @@ var SceneFour = new Phaser.Class(function () {
         this.scene.pause();
         ps = null
         this.input.keyboard.removeKey('ESC');
-        pauseev = this.events.on('resume', (scene, data) => {
+        this.events.on('resume', (scene, data) => {
           rls = data.rld
         });
-        pauseev.destroy();
         isPlaying = true
-
       }
       
       if (rls == true) {
@@ -378,6 +376,7 @@ var SceneFour = new Phaser.Class(function () {
         rls = false;
       }
       if (attk.isDown && atk == false && !busy) {
+        this.events.on('resume', (scene, data) => {});
         this.scene.setVisible(false);
         this.scene.launch('Slash', {
           serv: "Four",
