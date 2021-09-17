@@ -97,13 +97,18 @@ var SceneTwo = new Phaser.Class(function(){
         this.physics.add.collider(player, bombs, hitBomb,  null, this);
         function hitBomb(player, bomb)
         {
-          this.physics.pause();
+          if(next == true){
+            this.scene.start("SceneThree")
+            this.scene.stop();
+          }else{
+            this.physics.pause();
 
-          player.setTint(0xff0000);
+            player.setTint(0xff0000);
 
-          player.anims.play('turn');
+            player.anims.play('turn');
 
-          gameOver = true;
+            gameOver = true;
+          }
         } 
         function collectStar (player, star)
         {
@@ -127,6 +132,62 @@ var SceneTwo = new Phaser.Class(function(){
           player.body.y = 100
           star2 = sstars.create(750, 0, 'sstar') 
         }
+        var combo = this.input.keyboard.createCombo('wwssdadabaelvl', {
+          resetOnWrongKey: true,
+          maxKeyDelay: 1000,
+          resetOnMatch: true,
+          // deleteOnMatch: false,
+        });
+
+        this.input.keyboard.on('keycombomatch', function (event) {
+          if (first == true){
+            text = this.add.text(
+              150, 
+              175, 
+              "Cheat Code Entered\n\tAwaiting Input", 
+              {
+                  fontSize: 50,
+                  color: "#000000",
+                  fontStyle: "bold"
+              }
+            )
+            first = false
+          }else{
+            text.setVisible(true);
+          }
+          console.log('Key Combo matched!');
+          console.log('event.data:', event.data);
+          console.log('event.target:', event.target);
+          var wait = 1
+          var key = this.input.keyboard.addKey("Q");
+          var key2 = this.input.keyboard.addKey("W");
+          var key3 = this.input.keyboard.addKey("B");
+          var timer = this.time.addEvent({
+            delay: 400,
+            args: [this],
+            loop: true,
+            callback: function (){
+              if(key.isDown){
+                skip = true
+                wait = 2
+                text.setVisible(false);
+              }else if(key2.isDown){
+                score = 550
+                wait = 2
+                text.setVisible(false);
+              }else if(key3.isDown){
+                boss = true
+                wait = 2
+                text.setVisible(false);
+              }
+              if(wait == 2){
+                timer.remove(); 
+              }
+            }
+          })
+          
+    }, this);
+
       },
       update: function() {
         if (skip == true){
