@@ -120,7 +120,7 @@ var SceneFive = new Phaser.Class(function(){
         function hitBomb (player, bomb)
         {
           if(next == true){
-            this.scene.start("SceneTwo")
+            this.scene.start("SceneSix")
             this.scene.stop();
           }else{
             this.physics.pause();
@@ -214,7 +214,7 @@ var SceneFive = new Phaser.Class(function(){
       },
       update: function() {
         if (skip == true){
-          this.scene.start("SceneOne")
+          this.scene.start("SceneSix")
           this.scene.stop();   
           skip = false
         } 

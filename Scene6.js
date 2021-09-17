@@ -135,7 +135,7 @@ var SceneSix = new Phaser.Class(function(){
         function hitBomb (player, bomb)
         {
           if(next == true){
-            this.scene.start("SceneTwo")
+            this.scene.start("SceneThree")
             this.scene.stop();
           }else{
             this.physics.pause();
