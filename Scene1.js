@@ -26,7 +26,7 @@ var SceneOne = new Phaser.Class(function(){
         this.load.image('sky', 'assets/sky1.png');
         this.load.image('ground', 'assets/platform.png');
         this.load.image('star', 'assets/star3.png');
-        
+        this.load.image('uground', 'assets/uplatform.png');
         this.load.spritesheet('bomb',
             'assets/orb2.png',
             { frameWidth: 15, frameHeight: 15 })

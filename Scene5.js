@@ -20,13 +20,14 @@ var SceneFive = new Phaser.Class(function(){
       init: function() {
       },
       preload: function() {
-        
+        this.scene.remove("SceneOne");
+        this.scene.remove("SceneTwo");
         this.load.audio("boop", "./assets/select.mp3");
         this.load.audio("jump", "./assets/jump.wav");
         this.load.audio("hit", "./assets/hit.wav");
         this.load.image('sky', 'assets/sky1.png');
         this.load.image('ground', 'assets/platform.png');
-        this.load.image('uground', 'assets/uplatform.png');
+        this.load.image('uground', 'assets/upplatform.png');
         this.load.image('star', 'assets/star3.png');
         
         this.load.spritesheet('bomb',
@@ -48,7 +49,7 @@ var SceneFive = new Phaser.Class(function(){
         platforms = this.physics.add.staticGroup();
         contane = this.physics.add.staticGroup();
         platforms.create(400, 568, 'ground').setScale(2).refreshBody();
-        var uplat = platforms.create(500, 450, 'uground').refreshBody();
+        var uplat = platforms.create(500, 450, 'uground')
         contane.add(uplat)
         var plat = platforms.create(685, 365, 'ground').refreshBody();
         contane.add(plat)
