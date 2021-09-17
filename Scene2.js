@@ -9,6 +9,7 @@ var SceneTwo = new Phaser.Class(function(){
     var rls = false
     var isPlaying = false
     var go = true
+    var first = true
     return {
       Extends: Phaser.Scene,
       initialize: function() {
