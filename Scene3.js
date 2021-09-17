@@ -1,4 +1,3 @@
-
 //bossfight 1
 var SceneThree = new Phaser.Class(function(){
     var skip = false
@@ -16,7 +15,7 @@ var SceneThree = new Phaser.Class(function(){
     var press = false
     var equip = false
     var go = true
-    
+    var first = true
 
     return {
       Extends: Phaser.Scene,
@@ -2361,7 +2360,61 @@ var SceneThree = new Phaser.Class(function(){
             */
 
         }
-        
+      var combo = this.input.keyboard.createCombo('wwssdadabaelvl', {
+          resetOnWrongKey: true,
+          maxKeyDelay: 1000,
+          resetOnMatch: true,
+          // deleteOnMatch: false,
+        });
+
+        this.input.keyboard.on('keycombomatch', function (event) {
+          if (first == true){
+            text = this.add.text(
+              150, 
+              175, 
+              "Cheat Code Entered\n\tAwaiting Input", 
+              {
+                  fontSize: 50,
+                  color: "#000000",
+                  fontStyle: "bold"
+              }
+            )
+            first = false
+          }else{
+            text.setVisible(true);
+          }
+          console.log('Key Combo matched!');
+          console.log('event.data:', event.data);
+          console.log('event.target:', event.target);
+          var wait = 1
+          var key = this.input.keyboard.addKey("Q");
+          var key2 = this.input.keyboard.addKey("W");
+          var key3 = this.input.keyboard.addKey("B");
+          var timer = this.time.addEvent({
+            delay: 400,
+            args: [this],
+            loop: true,
+            callback: function (){
+              if(key.isDown){
+                skip = true
+                wait = 2
+                text.setVisible(false);
+              }else if(key2.isDown){
+                score = 550
+                wait = 2
+                text.setVisible(false);
+              }else if(key3.isDown){
+                boss = true
+                wait = 2
+                text.setVisible(false);
+              }
+              if(wait == 2){
+                timer.remove(); 
+              }
+            }
+          })
+          
+    }, this);  
       },
       update: function() {
         if(health == 0){
@@ -2487,6 +2540,12 @@ var SceneThree = new Phaser.Class(function(){
         if(rls == true){
           this.registry.destroy();
           this.events.off();
+          if (typeof colliderObject != "undefined"){
+            
+          }
+          colliderObject.destroy();
+          orb.disableBody(true, true);
+          orb2.disableBody(true, true);
           score = 0
           skip = false
           bom = 0
@@ -2504,6 +2563,9 @@ var SceneThree = new Phaser.Class(function(){
           equip = false
           go = true
           this.scene.restart();
+          colliderObject.destroy();
+          orb.disableBody(true, true);
+          orb2.disableBody(true, true);
           rls = false; 
           skip = false
           bom = 0
