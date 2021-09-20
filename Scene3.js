@@ -2541,11 +2541,10 @@ var SceneThree = new Phaser.Class(function(){
           this.registry.destroy();
           this.events.off();
           if (typeof colliderObject != "undefined"){
-            
+            colliderObject.destroy();
+            orb.disableBody(true, true);
+            orb2.disableBody(true, true);
           }
-          colliderObject.destroy();
-          orb.disableBody(true, true);
-          orb2.disableBody(true, true);
           score = 0
           skip = false
           bom = 0
