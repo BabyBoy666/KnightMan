@@ -244,7 +244,7 @@ var SceneFour = new Phaser.Class(function () {
     },
     update: function () {
       if (skip == true) {
-        this.scene.start("SceneTwo")
+        this.scene.start("SceneSeven")
         this.scene.stop();
         skip = false
       }
@@ -376,43 +376,51 @@ var SceneFour = new Phaser.Class(function () {
         rls = false;
       }
       if (attk.isDown && atk == false && !busy) {
-        this.events.on('resume', (scene, data) => {});
-        this.scene.setVisible(false);
-        this.scene.launch('Slash', {
-          serv: "Four",
-          cordx: player.x,
-          cordy: player.y,
-          dir: dir
-        })
-        this.scene.pause();
-        cursors = null
-        attk = null
-        if (dir == "left") {
-          var x = player.x - 23
-          var y = player.y
-          crbox = box.create(x, y, 'hitbox');
-          crbox.body.setAllowGravity(false, false)
-          this.time.addEvent({
-            delay: 300,
-            loop: false,
-            callback: () => {
-              crbox.disableBody(true, true)
+        this.time.addEvent({
+          delay: 10,
+          loop: false,
+          callback: () => {
+            if (attk.isUp && atk == false && !busy) {
+              this.events.on('resume', (scene, data) => {});
+              this.scene.setVisible(false);
+              this.scene.launch('Slash', {
+                serv: "Seven",
+                cordx: player.x,
+                cordy: player.y,
+                dir: dir
+              })
+              this.scene.pause();
+              cursors = null
+              attk = null
+              if (dir == "left") {
+                var x = player.x - 29
+                var y = player.y
+                crbox = box.create(x, y, 'hitbox');
+                crbox.body.setAllowGravity(false, false)
+                this.time.addEvent({
+                  delay: 300,
+                  loop: false,
+                  callback: () => {
+                    crbox.disableBody(true, true)
+                  }
+                });     
+              } else {
+                var x = player.x + 29
+                var y = player.y
+                crbox = box.create(x, y, 'hitbox');
+                crbox.body.setAllowGravity(false, false)
+                this.time.addEvent({
+                  delay: 300,
+                  loop: false,
+                  callback: () => {
+                    crbox.disableBody(true, true)
+                  }
+                });
+              }
+            atk = true
             }
-          });
-        } else {
-          var x = player.x + 23
-          var y = player.y
-          crbox = box.create(x, y, 'hitbox');
-          crbox.body.setAllowGravity(false, false)
-          this.time.addEvent({
-            delay: 300,
-            loop: false,
-            callback: () => {
-              crbox.disableBody(true, true)
-            }
-          });
-        }
-        atk = true
+          }
+        });
       }
       if (atk == true && delay == false) {
         delay = true

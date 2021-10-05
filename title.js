@@ -87,10 +87,17 @@ var Title = new Phaser.Class({
                     loop: false,
                     callback: () => {
                       pmusic.stop()
+                      var lvl = localStorage.getItem('myItemKey');
 
-                      this.scene.start("SceneOne")
-                      this.scene.start("AudioOne")
-                      this.scene.stop();
+                      if (lvl == "4"){
+                        this.scene.start("SceneFour")
+                        this.scene.start("AudioOne")
+                        this.scene.stop();
+                      }else{
+                        this.scene.start("SceneSeven")
+                        this.scene.start("AudioOne")
+                        this.scene.stop();
+                      }
                     }
                   })
                 }

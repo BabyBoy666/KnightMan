@@ -2533,8 +2533,8 @@ var SceneThree = new Phaser.Class(function(){
           })
         }
         if (skip == true){
-          this.scene.start("SceneFour")
-          this.scene.stop();   
+          localStorage.setItem('lvl', '4');
+          reload() 
           skip = false
         } 
         if(rls == true){
