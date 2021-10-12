@@ -1,5 +1,5 @@
-//after boss fight
-var SceneFour = new Phaser.Class(function () {
+var SceneSeven = new Phaser.Class(function () {
+  var next = false;
   var bom = 0
   var score = 0;
   var scoreText;
@@ -18,7 +18,7 @@ var SceneFour = new Phaser.Class(function () {
   return {
     Extends: Phaser.Scene,
     initialize: function () {
-      Phaser.Scene.call(this, { "key": "SceneFour" });
+      Phaser.Scene.call(this, { "key": "SceneSeven" });
     },
     init: function () {
     },
@@ -64,8 +64,7 @@ var SceneFour = new Phaser.Class(function () {
       swordc.body.setAllowGravity(false)
 
       scoreText = this.add.text(16, 16, 'score: 0', { fontSize: '32px', fill: '#000' });
-      bombs = this.physics.add.group();
-      this.physics.add.collider(bombs, platforms);
+      
 
       this.anims.create({
         key: 'over',
@@ -111,25 +110,23 @@ var SceneFour = new Phaser.Class(function () {
         frameRate: 10,
       });
       player.body.setGravityY(300)
-      stars = this.physics.add.group({
-        setScale: 3,
-        key: 'star',
-        repeat: 11,
-        setXY: { x: 12, y: 0, stepX: 70 }
-      });
-
-      stars.children.iterate(function (child) {
-
-        child.setBounceY(Phaser.Math.FloatBetween(0.4, 0.8));
-
-      });
-      //sword damage
+      bombs = this.physics.add.group();
       box = this.physics.add.group();
       enemys = this.physics.add.group();
+      var x = 12 
+      while(x < 800){
+        bomb = bombs.create(x, 16, 'bomb').setScale(2);
+          enemys.add(bomb)
+          bomb.setBounce(1);
+          bomb.setCollideWorldBounds(true);
+          bomb.setVelocity(Phaser.Math.Between(-100, 100), 20);
+        x += 70
+      }
+      this.physics.add.collider(bombs, platforms)
+      //sword damage
+      
 
 
-      this.physics.add.collider(stars, platforms);
-      this.physics.add.overlap(player, stars, collectStar, null, this);
       this.physics.add.overlap(enemys, box, kill, null, this);
       this.physics.add.collider(player, bombs, hitBomb, null, this);
       function hitBomb(player, bomb) {
@@ -148,6 +145,9 @@ var SceneFour = new Phaser.Class(function () {
       }
       function kill(enemy) {
         enemy.disableBody(true, true)
+        if (enemys.countActive(true) === 0) {
+          next = true
+        }
       }
       function retform (player){
           if (busy){
@@ -244,7 +244,7 @@ var SceneFour = new Phaser.Class(function () {
     },
     update: function () {
       if (skip == true) {
-        this.scene.start("SceneSeven")
+        this.scene.start("SceneTwo")
         this.scene.stop();
         skip = false
       }
@@ -281,7 +281,9 @@ var SceneFour = new Phaser.Class(function () {
 
 
 
-
+      if (bombs.countActive(true) === 0){
+        skip = true
+      }
       if (cursors.left.isDown && !busy)
         {
           dir = "left"
@@ -313,7 +315,7 @@ var SceneFour = new Phaser.Class(function () {
           busy = true
           downdf()
         }
-      if (score == 600 && com == true) {
+      if (next == true && com == true) {
         next = true
         cont = this.add.sprite(750, 50, 'contin')
         cont.setInteractive();
@@ -337,7 +339,7 @@ var SceneFour = new Phaser.Class(function () {
       if (ps.isDown && ready == true) {
         select.play();
         this.scene.launch('Pause', {
-          serv: "Four"
+          serv: "Seven"
         })
         this.scene.pause();
         ps = null
@@ -405,7 +407,6 @@ var SceneFour = new Phaser.Class(function () {
                   }
                 });     
               } else {
-
                 var x = player.x + 29
                 var y = player.y
                 crbox = box.create(x, y, 'hitbox');
