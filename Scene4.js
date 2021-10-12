@@ -405,6 +405,7 @@ var SceneFour = new Phaser.Class(function () {
                   }
                 });     
               } else {
+
                 var x = player.x + 29
                 var y = player.y
                 crbox = box.create(x, y, 'hitbox');
