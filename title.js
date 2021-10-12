@@ -94,7 +94,7 @@ var Title = new Phaser.Class({
                         this.scene.start("AudioOne")
                         this.scene.stop();
                       }else{
-                        this.scene.start("SceneSeven")
+                        this.scene.start("SceneOne")
                         this.scene.start("AudioOne")
                         this.scene.stop();
                       }
