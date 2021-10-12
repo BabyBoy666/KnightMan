@@ -16,6 +16,7 @@ var SceneThree = new Phaser.Class(function(){
     var equip = false
     var go = true
     var first = true
+    var busy2 = false
 
     return {
       Extends: Phaser.Scene,
@@ -310,8 +311,8 @@ var SceneThree = new Phaser.Class(function(){
         this.physics.add.overlap(player, platforms,under, null, this);
         this.physics.add.collider(bombs2, wall, borderh, null, this)
         this.physics.add.collider(bombs2, platforms, borderh, null, this)
-        this.physics.add.collider(player, bombs,touchEnemy, null, this);
-        this.physics.add.collider(player, bombs2,touchEnemy, null, this);
+        //this.physics.add.collider(player, bombs,touchEnemy, null, this);
+        //this.physics.add.collider(player, bombs2,touchEnemy, null, this);
         /*
         function onWorldBounds (bomb){
           bomb.disableBody(true, true);
@@ -342,6 +343,7 @@ var SceneThree = new Phaser.Class(function(){
                 player.body.setAllowGravity(true)
                 player.setBounce(0.2);
                 busy = false
+                busy2 = false
               }
             });
           }
@@ -2417,6 +2419,9 @@ var SceneThree = new Phaser.Class(function(){
     }, this);  
       },
       update: function() {
+        if(busy2){
+          player.body.setVelocity(0, 480);
+        }
         if(health == 0){
           this.physics.pause();
 
@@ -2439,8 +2444,8 @@ var SceneThree = new Phaser.Class(function(){
             this.time.addEvent({
               delay: 1000,
               loop: false,
-              callback: () => {
-
+              callback: () => {  
+                busy2 = true
                 player.setVelocityY(500);
               }
             });
@@ -2498,9 +2503,7 @@ var SceneThree = new Phaser.Class(function(){
           this.scene.launch('Pause',{
             serv:"Three"
           })
-          if(busy == true){
-            player.body.setVelocityY(-480);
-          }
+          
           this.scene.pause(); 
           ps = null
           this.input.keyboard.removeKey('ESC'); 
