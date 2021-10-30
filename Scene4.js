@@ -184,7 +184,7 @@ var SceneFour = new Phaser.Class(function () {
         }
 
       }
-      var combo = this.input.keyboard.createCombo('wwssdadabaelvl', {
+      var combo = this.input.keyboard.createCombo('wwssdadabae1v1', {
         resetOnWrongKey: true,
         maxKeyDelay: 1000,
         resetOnMatch: true,

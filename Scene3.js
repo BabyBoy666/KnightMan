@@ -1,4 +1,4 @@
-//bossfight 1
+ //bossfight 1
 var SceneThree = new Phaser.Class(function(){
     var skip = false
     var bom = 0

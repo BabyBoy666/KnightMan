@@ -197,7 +197,6 @@ var SceneOne = new Phaser.Class(function(){
           
     }, this);
 
-
       },
       update: function() {
         if (skip == true){
@@ -288,15 +287,10 @@ var SceneOne = new Phaser.Class(function(){
           
         }
         if(rls == true){
-          //this.scene.stop();
-          //this.scene.start('SceneOne');
+          score = 0
           this.registry.destroy();
           this.events.off();
-          score = 0
-          isPlaying = true
           this.scene.restart();
-          isPlaying = true
-          //this.events.on();
           rls = false; 
         }
         
